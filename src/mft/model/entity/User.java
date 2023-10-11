@@ -11,10 +11,11 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 
-public class Member {
+public class User {
     private int id;
-    private String name;
-    private String family;
+    private String userName;
+    private String password;
+    private boolean status;
 
 
     @Override
