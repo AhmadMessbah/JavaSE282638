@@ -1,4 +1,4 @@
--- PERSON
+-- Member
 CREATE TABLE MEMBER_TBL
 (
     ID     NUMBER PRIMARY KEY,
