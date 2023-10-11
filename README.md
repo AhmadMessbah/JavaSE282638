@@ -11,3 +11,10 @@ Tasks :
     Zargar :         MemberDa
     Ghahremani :     BookDa
     Chakame :        UserDa
+
+
+in DB :
+alter session set "_oracle_script" = true;
+create user javase identified by java123;
+grant dba to javase;
+connect javase/java123;
