@@ -1,15 +1,12 @@
 package mft.model.da;
 
 import mft.model.entity.Book;
-import mft.model.entity.Borrow;
-import mft.model.entity.Member;
 import mft.model.utils.Jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
