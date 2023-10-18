@@ -13,14 +13,13 @@ import java.util.List;
 public class BorrowDa {
     private Connection connection;
     private PreparedStatement statement;
-    private Jdbc jdbc = new Jdbc();
 
     public BorrowDa() throws Exception {
-        connection = jdbc.getConnection();
+        connection = Jdbc.getConnection();
     }
 
     public Borrow save(Borrow borrow) throws Exception {
-        borrow.setId(jdbc.nextId("BORROW_SEQ"));
+        borrow.setId(Jdbc.nextId("BORROW_SEQ"));
         statement = connection.prepareStatement(
                 "INSERT INTO BORROW_TBL(ID, MEMBER_ID, BOOK_ID, BORROW_TIMESTAMP, RETURN_TIMESTAMP) VALUES (?,?,?,?,?)"
         );
