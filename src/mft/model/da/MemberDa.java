@@ -10,15 +10,13 @@ import java.util.List;
 public class MemberDa {
     private Connection connection;
     private PreparedStatement preparedStatement;
-    private Jdbc jdbc = new Jdbc();
 
     public MemberDa() throws Exception {
-
-        connection = jdbc.getConnection();
+        connection = Jdbc.getConnection();
     }
 
     public Member save(Member member) throws Exception {
-        member.setId(jdbc.nextId("MEMBER_SEQ"));
+        member.setId(Jdbc.nextId("MEMBER_SEQ"));
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO MEMBER_TBL(ID,NAME,FAMILY) VALUES (?,?,?)"
         );
