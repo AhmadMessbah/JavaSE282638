@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 public class User {
     private int id;
+    private Member member;
     private String userName;
     private String password;
     private boolean status;
