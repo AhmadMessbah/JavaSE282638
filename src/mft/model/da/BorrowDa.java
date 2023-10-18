@@ -27,7 +27,7 @@ public class BorrowDa {
         statement.setInt(2, borrow.getMember().getId());
         statement.setInt(3, borrow.getBook().getId());
         statement.setTimestamp(4, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
-        statement.setTimestamp(5, Timestamp.valueOf(borrow.getReturnTimeStamp()));
+        statement.setTimestamp(5,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.execute();
         close();
         return borrow;
@@ -40,20 +40,22 @@ public class BorrowDa {
         statement.setInt(1, borrow.getMember().getId());
         statement.setInt(2, borrow.getBook().getId());
         statement.setTimestamp(3, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
-        statement.setTimestamp(4, Timestamp.valueOf(borrow.getReturnTimeStamp()));
+        statement.setTimestamp(4,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.setInt(5, borrow.getId());
         statement.execute();
+        close();
         return borrow;
     }
 
-    public Borrow remove(int id) throws Exception {
-        Borrow borrow = findById(id);
+    public void remove(int id) throws Exception {
+        //Borrow borrow = findById(id);
         statement = connection.prepareStatement(
                 "DELETE FROM BORROW_TBL WHERE ID=?"
         );
         statement.setInt(1, id);
         statement.execute();
-        return borrow;
+        close();
+        //return borrow;
     }
 
     public List<Borrow> findAll() throws Exception {
@@ -187,6 +189,7 @@ public class BorrowDa {
         statement = connection.prepareStatement(
                 "SELECT * from BORROW_REPORT where B_ID=?"
         );
+        statement.setInt(1,bookId);
         ResultSet resultSet = statement.executeQuery();
 
         List<Borrow> borrowList = new ArrayList<>();

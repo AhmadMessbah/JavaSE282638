@@ -27,9 +27,26 @@ public class MemberDa {
         close();
         return member;
     }
+    public Member edit(Member member) throws Exception {
+        preparedStatement = connection.prepareStatement(
+                "UPDATE MEMBER_TBL SET NAME=?, FAMILY=? WHERE ID=?"
+        );
+        preparedStatement.setString(1, member.getName());
+        preparedStatement.setString(2, member.getFamily());
+        preparedStatement.setInt(3, member.getId());
+        preparedStatement.execute();
+        return member;
+    }
 
-//    todo : edit
-//    todo : remove
+    public void remove(int id) throws Exception {
+        //Member member = findById(id);
+        preparedStatement = connection.prepareStatement(
+                "DELETE FROM MEMBER_TBL WHERE ID=?"
+        );
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+//        return member;
+    }
 
     public List<Member> findAll() throws Exception {
         preparedStatement = connection.prepareStatement(
@@ -69,8 +86,24 @@ public class MemberDa {
         return member;
     }
 
-//    TODO : FIND BY NAME AND FAMILY (name,family) ==> SELECT * FROM MEMBER_TBL WHERE NAME LIKE ? AND FAMILY LIKE ?
-
+    public Member findByNameAndFamily(String name,String family) throws Exception {
+        preparedStatement = connection.prepareStatement(
+                "SELECT * FROM MEMBER_TBL WHERE NAME LIKE ? AND FAMILY LIKE ?"
+        );
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2,family);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Member member = null;
+        while (resultSet.next()) {
+            member = Member.builder()
+                    .id(resultSet.getInt("ID"))
+                    .name(resultSet.getString("NAME"))
+                    .family(resultSet.getString("FAMILY"))
+                    .build();
+        }
+        close();
+        return member;
+    }
     public void close() throws Exception {
         preparedStatement.close();
         connection.close();
