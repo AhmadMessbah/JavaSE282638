@@ -10,13 +10,15 @@ import java.util.List;
 public class MemberDa {
     private Connection connection;
     private PreparedStatement preparedStatement;
+    private Jdbc jdbc = new Jdbc();
 
     public MemberDa() throws Exception {
-        Jdbc jdbc = new Jdbc();
-        connection=jdbc.getConnection();
+
+        connection = jdbc.getConnection();
     }
 
-    public void save(Member member) throws Exception {
+    public Member save(Member member) throws Exception {
+        member.setId(jdbc.nextId("MEMBER_SEQ"));
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO MEMBER_TBL(ID,NAME,FAMILY) VALUES (?,?,?)"
         );
@@ -25,45 +27,53 @@ public class MemberDa {
         preparedStatement.setString(3, member.getFamily());
         preparedStatement.execute();
         close();
+        return member;
     }
 
+//    todo : edit
+//    todo : remove
+
     public List<Member> findAll() throws Exception {
-        preparedStatement=connection.prepareStatement(
-            "select * from MEMBER_TBL"
-    );
+        preparedStatement = connection.prepareStatement(
+                "select * from MEMBER_TBL ORDER BY FAMILY"
+        );
         ResultSet resultSet = preparedStatement.executeQuery();
 
         List<Member> memberList = new ArrayList<>();
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
             Member member = Member.builder()
-                    .id(resultSet.getInt("id"))
-                    .name(resultSet.getString("name"))
-                    .family(resultSet.getString("family"))
+                    .id(resultSet.getInt("ID"))
+                    .name(resultSet.getString("NAME"))
+                    .family(resultSet.getString("FAMILY"))
                     .build();
             memberList.add(member);
         }
         close();
         return memberList;
     }
+
     public Member findById(int id) throws Exception {
         preparedStatement = connection.prepareStatement(
-                "select * from MEMBER_TBL where ID=?"
+                "SELECT * FROM MEMBER_TBL WHERE ID=?"
         );
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         Member member = null;
         while (resultSet.next()) {
             member = Member.builder()
-                    .id(resultSet.getInt("id"))
-                    .name(resultSet.getString("name"))
-                    .family(resultSet.getString("family"))
+                    .id(resultSet.getInt("ID"))
+                    .name(resultSet.getString("NAME"))
+                    .family(resultSet.getString("FAMILY"))
                     .build();
         }
         close();
         return member;
     }
-    public void close()throws Exception{
+
+//    TODO : FIND BY NAME AND FAMILY (name,family) ==> SELECT * FROM MEMBER_TBL WHERE NAME LIKE ? AND FAMILY LIKE ?
+
+    public void close() throws Exception {
         preparedStatement.close();
         connection.close();
     }
