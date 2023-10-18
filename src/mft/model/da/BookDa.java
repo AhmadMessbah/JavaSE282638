@@ -10,49 +10,50 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDa {
+public class BookDa implements AutoCloseable{
     private Connection connection;
     private PreparedStatement statement;
 
     public BookDa() throws Exception {
         connection = Jdbc.getConnection();
     }
+
     public Book save(Book book) throws Exception {
         book.setId(Jdbc.nextId("BOOK_SEQ"));
         statement = connection.prepareStatement(
                 "INSERT INTO BOOK_TBL(ID,NAME,AUTHOR) VALUES (?,?,?)"
         );
         statement.setInt(1, book.getId());
-        statement.setString(2,book.getName());
-        statement.setString(3,book.getAuthor());
+        statement.setString(2, book.getName());
+        statement.setString(3, book.getAuthor());
         statement.execute();
-        close();
         return book;
     }
+
     public Book edit(Book book) throws Exception {
         statement = connection.prepareStatement(
                 "UPDATE BOOK_TBL SET NAME=?, AUTHOR=? WHERE ID=?"
         );
-        statement.setString(1,book.getName());
-        statement.setString(2,book.getAuthor());
+        statement.setString(1, book.getName());
+        statement.setString(2, book.getAuthor());
         statement.setInt(3, book.getId());
         statement.execute();
         return book;
     }
+
     public void remove(int id) throws Exception {
-        //Book book = findById(id);
         statement = connection.prepareStatement(
                 "DELETE FROM BOOK_TBL WHERE ID=?"
         );
         statement.setInt(1, id);
         statement.execute();
-        //return book;
     }
-    public List<Book>  findAll() throws Exception {
+
+    public List<Book> findAll() throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL ORDER BY BOOK_TBL.ID"
         );
-        ResultSet resultSet=statement.executeQuery();
+        ResultSet resultSet = statement.executeQuery();
         List<Book> bookList = new ArrayList<>();
         while (resultSet.next()) {
             Book book = Book.builder()
@@ -62,7 +63,6 @@ public class BookDa {
                     .build();
             bookList.add(book);
         }
-        close();
         return bookList;
     }
 
@@ -80,9 +80,9 @@ public class BookDa {
                     .author(resultSet.getString("AUTHOR"))
                     .build();
         }
-        close();
         return book;
     }
+
     public Book findByName(String name) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE NAME=?"
@@ -97,9 +97,9 @@ public class BookDa {
                     .author(resultSet.getString("AUTHOR"))
                     .build();
         }
-        close();
         return book;
     }
+
     public Book findByAuthor(String author) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE AUTHOR=?"
@@ -114,9 +114,10 @@ public class BookDa {
                     .author(resultSet.getString("AUTHOR"))
                     .build();
         }
-        close();
         return book;
     }
+
+    @Override
     public void close() throws Exception {
         statement.close();
         connection.close();
