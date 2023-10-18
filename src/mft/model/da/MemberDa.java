@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberDa {
-    private Connection connection;
+    private final Connection connection;
     private PreparedStatement preparedStatement;
 
     public MemberDa() throws Exception {
