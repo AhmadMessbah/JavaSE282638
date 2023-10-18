@@ -12,7 +12,7 @@ public class Jdbc {
     public static Connection  getConnection() throws Exception {
         basicDataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
         basicDataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
-        basicDataSource.setUsername("javase111");
+        basicDataSource.setUsername("javase");
         basicDataSource.setPassword("java123");
         basicDataSource.setMinIdle(5);
         basicDataSource.setMaxTotal(20);

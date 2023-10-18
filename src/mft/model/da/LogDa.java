@@ -2,7 +2,6 @@ package mft.model.da;
 
 
 import mft.model.entity.Log;
-import mft.model.entity.User;
 import mft.model.utils.Jdbc;
 
 import java.sql.Connection;
@@ -10,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class LogDa {
+public class LogDa implements AutoCloseable{
     private Connection connection;
     private PreparedStatement statement;
 
@@ -46,6 +45,7 @@ public class LogDa {
         return null;
     }
 
+    @Override
     public void close() throws Exception {
         statement.close();
         connection.close();
