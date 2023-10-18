@@ -8,10 +8,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 
 public class Log {
     private int id;
