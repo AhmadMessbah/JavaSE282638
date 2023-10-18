@@ -2,6 +2,10 @@
 Library Project
 JavaSE Class code 282638
 
+Requirement : 
+    - Please run mft.model.da.db.sql
+    - Add mft.lib to project libraries
+
 To Do :
     DataAccess Layer (save, edit,remove,findAll,findById)
 
