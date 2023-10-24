@@ -100,12 +100,13 @@ public class BookDa implements AutoCloseable{
         return book;
     }
 
-    public Book findByAuthor(String author) throws Exception {
+    public List<Book> findByAuthor(String author) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE AUTHOR=?"
         );
         statement.setString(1, author);
         ResultSet resultSet = statement.executeQuery();
+        List<Book> bookList = new ArrayList<>();
         Book book = null;
         while (resultSet.next()) {
             book = Book.builder()
@@ -113,8 +114,9 @@ public class BookDa implements AutoCloseable{
                     .name(resultSet.getString("NAME"))
                     .author(resultSet.getString("AUTHOR"))
                     .build();
+            bookList.add(book);
         }
-        return book;
+        return bookList;
     }
 
     @Override
