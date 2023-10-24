@@ -10,25 +10,26 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDa {
-    private Connection connection;
+public class UserDa implements AutoCloseable{
+    private final Connection connection;
     private PreparedStatement statement;
+
 
     public UserDa() throws Exception {
         connection = Jdbc.getConnection();
     }
 
-    public User save(User user) throws Exception {
+    public User save(User user) throws Exception{
+        user.setId(Jdbc.nextId("USER_SEQ"));
         statement = connection.prepareStatement(
-                "INSERT INTO USER_TBL(id, member_id, username, password, status) VALUES (?,?,?,?)"
+                "INSERT INTO USER_TBL(id, member_id, username, password, status) VALUES (?,?,?,?,?)"
         );
         statement.setInt(1, user.getId());
         statement.setInt(2, user.getMember().getId());
         statement.setString(3, user.getUserName());
         statement.setString(4, user.getPassword());
-        statement.setString(4, String.valueOf(user.isStatus()));
+        statement.setString(5, String.valueOf(user.isStatus()));
         statement.execute();
-        statement.close();
         return user;
     }
 
@@ -42,18 +43,17 @@ public class UserDa {
         statement.setString(4, user.getPassword());
         statement.setString(5, String.valueOf(user.isStatus()));
         statement.execute();
-        statement.close();
         return user;
     }
 
-    public void remove(int id) throws Exception {
+    public User remove(int id) throws Exception {
         statement = connection.prepareStatement(
                 "DELETE FROM USER_TBL WHERE ID=?"
         );
         statement.setInt(1, id);
         statement.execute();
-        statement.close();
 //        return User;
+        return null;
     }
 
     public List<User> findAll() throws Exception {
@@ -77,7 +77,6 @@ public class UserDa {
                     .build();
         }
 
-        close();
         return userList;
 
     }
@@ -92,28 +91,52 @@ public class UserDa {
         User user = User.builder()
                 .id(resultSet.getInt("USER_ID"))
                 .build();
-        close();
         return user;
 
     }
 
 
-    public String findByUserName(String userName) throws Exception {
+//    public User findByUserName(String userName) throws Exception {
+//        statement = connection.prepareStatement(
+//                "SELECT * FROM USER_TBL WHERE USERNAME=?"
+//        );
+//        statement.setString(1, userName);
+//        ResultSet resultSet = statement.executeQuery();
+//        resultSet.next();
+//        User user = User.builder()
+//                .userName(resultSet.getString("USER_USERNAME"))
+//                .build();
+//        return userName;
+//    }
+
+    public User findByUserNameAndPassword(String username, String paswword) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM USER_TBL WHERE USERNAME=?"
+                "SELECT * FROM USER_TBL WHERE USERNAME LIKE ? AND PASSWORD LIKE ?"
         );
-        statement.setString(1, userName);
-        statement.execute();
-        statement.close();
-        return userName;
+        statement.setString(1, username);
+        statement.setString(2, paswword);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        User user = User.builder()
+                .userName(resultSet.getString("USER_USERNAME"))
+                .password(resultSet.getString("USER_PASSWORD"))
+                .build();
+        return null;
     }
 
-//    public User findByUserNameAndPassword(String username, String paswword) throws Exception {
-//        statement = connection.prepareStatement(
-//                "SELECT * FROM USER_TBL WHERE USERNAME=? "
-//        );
-//        close();
-//    }
+    public User findByStatus(boolean status) throws Exception {
+        statement = connection.prepareStatement(
+                "SELECT * FROM USER_TBL WHERE STATUS=?"
+        );
+        statement.setBoolean(1, status);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        User user = User.builder()
+                .status(resultSet.getBoolean("USER_STATUS"))
+                .build();
+        return null;
+
+    }
 
 
     public void close() throws Exception {

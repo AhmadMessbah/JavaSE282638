@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BorrowDa {
+public class BorrowDa implements AutoCloseable {
     private Connection connection;
     private PreparedStatement statement;
 
@@ -29,7 +29,6 @@ public class BorrowDa {
         statement.setTimestamp(4, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
         statement.setTimestamp(5,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.execute();
-        close();
         return borrow;
     }
 
@@ -43,7 +42,6 @@ public class BorrowDa {
         statement.setTimestamp(4,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.setInt(5, borrow.getId());
         statement.execute();
-        close();
         return borrow;
     }
 
@@ -54,7 +52,6 @@ public class BorrowDa {
         );
         statement.setInt(1, id);
         statement.execute();
-        close();
         //return borrow;
     }
 
@@ -102,7 +99,6 @@ public class BorrowDa {
 
             borrowList.add(borrow);
         }
-        close();
         return borrowList;
     }
 
@@ -139,7 +135,6 @@ public class BorrowDa {
                 .returnTimeStamp(returnDateTime)
                 .build();
 
-        close();
         return borrow;
     }
 
@@ -181,7 +176,6 @@ public class BorrowDa {
             borrowList.add(borrow);
 
         }
-        close();
         return borrowList;
     }
 
@@ -222,7 +216,6 @@ public class BorrowDa {
 
             borrowList.add(borrow);
         }
-        close();
         return borrowList;
     }
 
@@ -272,7 +265,6 @@ public class BorrowDa {
 
             borrowList.add(borrow);
         }
-        close();
         return borrowList;
     }
 
@@ -317,10 +309,101 @@ public class BorrowDa {
 
             borrowList.add(borrow);
         }
-        close();
         return borrowList;
     }
 
+    public int memberNotReturnedBooks(int memberId) throws Exception{
+         statement = connection.prepareStatement(
+                 "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL "
+         );
+         statement.setInt(1,memberId);
+         ResultSet resultSet = statement.executeQuery();
+         resultSet.next();
+         return resultSet.getInt(1);
+    }
+
+    public List<Borrow> findByBookName(String bookName) throws Exception{
+        statement = connection.prepareStatement(
+                "SELECT * FROM BORROW_REPORT WHERE B_NAME LIKE ?"
+        );
+        statement.setString(1,bookName);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Borrow> borrowList = new ArrayList<>();
+
+        while (resultSet.next()){
+            Member member = Member.builder()
+                    .id(resultSet.getInt("M_ID"))
+                    .name(resultSet.getString("M_NAME"))
+                    .family(resultSet.getString("M_FAMILY"))
+                    .build();
+
+            Book book = Book.builder()
+                    .id(resultSet.getInt("B_ID"))
+                    .name(resultSet.getString("B_NAME"))
+                    .author(resultSet.getString("B_AUTHOR"))
+                    .build();
+
+            LocalDateTime returnDateTime = null;
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP")!=null){
+                returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
+            }
+
+            Borrow borrow = Borrow.builder()
+                    .id(resultSet.getInt("BR_ID"))
+                    .member(member)
+                    .book(book)
+                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                    .returnTimeStamp(returnDateTime)
+                    .build();
+
+            borrowList.add(borrow);
+        }
+        return borrowList;
+    }
+
+    public List<Borrow> findByMemberNameFamily(String name, String family) throws Exception{
+        statement = connection.prepareStatement(
+                "SELECT * FROM BORROW_REPORT WHERE M_NAME LIKE ? AND M_FAMILY LIKE ?"
+        );
+        statement.setString(1,name);
+        statement.setString(2,family);
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Borrow> borrowList = new ArrayList<>();
+
+        while (resultSet.next()){
+            Member member = Member.builder()
+                    .id(resultSet.getInt("M_ID"))
+                    .name(resultSet.getString("M_NAME"))
+                    .family(resultSet.getString("M_FAMILY"))
+                    .build();
+
+            Book book = Book.builder()
+                    .id(resultSet.getInt("B_ID"))
+                    .name(resultSet.getString("B_NAME"))
+                    .author(resultSet.getString("B_AUTHOR"))
+                    .build();
+
+            LocalDateTime returnDateTime = null;
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP")!=null){
+                returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
+            }
+
+            Borrow borrow = Borrow.builder()
+                    .id(resultSet.getInt("BR_ID"))
+                    .member(member)
+                    .book(book)
+                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                    .returnTimeStamp(returnDateTime)
+                    .build();
+
+            borrowList.add(borrow);
+        }
+        return borrowList;
+    }
+    @Override
     public void close() throws Exception {
         statement.close();
         connection.close();
