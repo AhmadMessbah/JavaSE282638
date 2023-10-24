@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberDa {
+public class MemberDa implements AutoCloseable{
     private final Connection connection;
     private PreparedStatement preparedStatement;
 
@@ -24,7 +24,6 @@ public class MemberDa {
         preparedStatement.setString(2, member.getName());
         preparedStatement.setString(3, member.getFamily());
         preparedStatement.execute();
-        close();
         return member;
     }
     public Member edit(Member member) throws Exception {
@@ -39,13 +38,11 @@ public class MemberDa {
     }
 
     public void remove(int id) throws Exception {
-        //Member member = findById(id);
         preparedStatement = connection.prepareStatement(
                 "DELETE FROM MEMBER_TBL WHERE ID=?"
         );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
-//        return member;
     }
 
     public List<Member> findAll() throws Exception {
@@ -53,9 +50,7 @@ public class MemberDa {
                 "select * from MEMBER_TBL ORDER BY FAMILY"
         );
         ResultSet resultSet = preparedStatement.executeQuery();
-
         List<Member> memberList = new ArrayList<>();
-
         while (resultSet.next()) {
             Member member = Member.builder()
                     .id(resultSet.getInt("ID"))
@@ -64,7 +59,6 @@ public class MemberDa {
                     .build();
             memberList.add(member);
         }
-        close();
         return memberList;
     }
 
@@ -82,7 +76,6 @@ public class MemberDa {
                     .family(resultSet.getString("FAMILY"))
                     .build();
         }
-        close();
         return member;
     }
 
@@ -101,9 +94,9 @@ public class MemberDa {
                     .family(resultSet.getString("FAMILY"))
                     .build();
         }
-        close();
         return member;
     }
+    @Override
     public void close() throws Exception {
         preparedStatement.close();
         connection.close();
