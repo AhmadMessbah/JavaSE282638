@@ -1,14 +1,14 @@
 package mft.exception;
 
-public class NoContent extends Exception{
+public class DuplicateUserNameException extends Exception{
     private String message;
 
-    public NoContent() {
+    public DuplicateUserNameException() {
         super();
-        message = "No Content";
+        message = "Duplicate User Name";
     }
 
-    public NoContent(String message) {
+    public DuplicateUserNameException(String message) {
         super(message);
         this.message = message;
     }

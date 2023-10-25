@@ -9,21 +9,20 @@ import mft.model.entity.User;
 import java.util.regex.Pattern;
 
 public class UserController {
-//    public static String save(int memberId, String userName, String password) {
-    public static String save(String userName, String password)  {
+    public static String save(int memberId, String userName, String password) {
         String message;
         try {
-            if (Pattern.matches("[a-zA-Z\\s]{8,30}", userName) && Pattern.matches("[a-zA-Z\\s]{8,30}", password)){
+            if (Pattern.matches("[a-zA-Z\\d\\s]{2,30}", userName) && Pattern.matches("[a-zA-Z\\d\\s]{2,30}", password)){
                 User user =
                         User.builder()
                                 .userName(userName)
                                 .password(password)
-//                                .member(MemberBl.findById(memberId))
+                                .member(MemberBl.findById(memberId))
                                 .status(true)
                                 .build();
                 UserBl.save(user);
                 message = user + " Saved";
-                Logger.info("Save",user.toString(),1);
+                Logger.info("Save-User",user.toString(),1);
             }else {
                 message = "Invalid Data";
                 Logger.info("Save-Error",message,1);

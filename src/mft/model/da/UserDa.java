@@ -115,17 +115,10 @@ public class UserDa implements AutoCloseable {
 
         User user = null;
         if (resultSet.next()) {
-            Member member = Member.builder()
-                    .id(resultSet.getInt("ID"))
-                    .name(resultSet.getString("NAME"))
-                    .family(resultSet.getString("FAMILY"))
-                    .build();
-
             user = User.builder()
                     .id(resultSet.getInt("ID"))
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .member(member)
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
         }

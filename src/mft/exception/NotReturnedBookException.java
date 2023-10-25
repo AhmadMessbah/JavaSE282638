@@ -1,14 +1,14 @@
 package mft.exception;
 
-public class DuplicateUserName extends Exception{
+public class NotReturnedBookException extends Exception{
     private String message;
 
-    public DuplicateUserName() {
+    public NotReturnedBookException() {
         super();
-        message = "Duplicate User Name";
+        message = "Previous Borrowed Book not returned";
     }
 
-    public DuplicateUserName(String message) {
+    public NotReturnedBookException(String message) {
         super(message);
         this.message = message;
     }

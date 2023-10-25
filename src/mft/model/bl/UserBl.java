@@ -1,7 +1,7 @@
 package mft.model.bl;
 
-import mft.exception.DuplicateUserName;
-import mft.exception.NoContent;
+import mft.exception.DuplicateUserNameException;
+import mft.exception.NoContentException;
 import mft.model.da.UserDa;
 import mft.model.entity.User;
 
@@ -10,10 +10,10 @@ import java.util.List;
 public class UserBl {
     public static User save(User user) throws Exception {
         try (UserDa userDa = new UserDa()) {
-            if (userDa.findByUserName(user.getUserName()) != null) {
+            if (userDa.findByUserName(user.getUserName()) == null) {
                 return userDa.save(user);
             }
-            throw new DuplicateUserName("Duplicate Username");
+            throw new DuplicateUserNameException("Duplicate Username");
         }
     }
 
@@ -31,7 +31,7 @@ public class UserBl {
                 userDa.remove(id);
                 return user;
             }
-            throw new NoContent("No User !");
+            throw new NoContentException("No User !");
         }
     }
 
@@ -41,7 +41,7 @@ public class UserBl {
             if(userList.size()>0) {
                 return userList;
             }
-            throw new NoContent("There is no User !");
+            throw new NoContentException("There is no User !");
         }
     }
 
@@ -51,7 +51,7 @@ public class UserBl {
             if (user != null) {
                 return user;
             }
-            throw new NoContent("No User !");
+            throw new NoContentException("No User !");
         }
     }
 
@@ -59,9 +59,10 @@ public class UserBl {
         try (UserDa userDa = new UserDa()) {
             User user = userDa.findByUserName(username);
             if (user != null) {
+//              todo : user.setMember(MemberBl.findById(id));
                 return user;
             }
-            throw new NoContent("No User !");
+            throw new NoContentException("No User !");
         }
     }
 
@@ -71,7 +72,7 @@ public class UserBl {
             if (user != null) {
                 return user;
             }
-            throw new NoContent();
+            throw new NoContentException();
 
         }
     }
@@ -82,7 +83,7 @@ public class UserBl {
             if(userList.size()>0) {
                 return userList;
             }
-            throw new NoContent("There is no User !");
+            throw new NoContentException("There is no User !");
         }
     }
 }

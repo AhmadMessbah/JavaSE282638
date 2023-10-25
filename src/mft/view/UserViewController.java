@@ -22,8 +22,8 @@ public class UserViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         signupBtn.setOnAction(event -> {
-            String message = UserController.save(usernameTxt.getText(),passwordTxt.getText());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+            String message = UserController.save(1,usernameTxt.getText(),passwordTxt.getText());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
             alert.show();
         });
     }

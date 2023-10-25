@@ -1,14 +1,14 @@
 package mft.exception;
 
-public class AccessDenied extends Exception{
+public class NoContentException extends Exception{
     private String message;
 
-    public AccessDenied() {
+    public NoContentException() {
         super();
-        message = "Access Denied !!!";
+        message = "No Content";
     }
 
-    public AccessDenied(String message) {
+    public NoContentException(String message) {
         super(message);
         this.message = message;
     }
