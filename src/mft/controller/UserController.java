@@ -9,7 +9,8 @@ import mft.model.entity.User;
 import java.util.regex.Pattern;
 
 public class UserController {
-    public static String save(int memberId, String userName, String password) throws Exception {
+//    public static String save(int memberId, String userName, String password) {
+    public static String save(String userName, String password)  {
         String message;
         try {
             if (Pattern.matches("[a-zA-Z\\s]{8,30}", userName) && Pattern.matches("[a-zA-Z\\s]{8,30}", password)){
@@ -17,7 +18,7 @@ public class UserController {
                         User.builder()
                                 .userName(userName)
                                 .password(password)
-                                .member(MemberBl.findById(memberId))
+//                                .member(MemberBl.findById(memberId))
                                 .status(true)
                                 .build();
                 UserBl.save(user);
