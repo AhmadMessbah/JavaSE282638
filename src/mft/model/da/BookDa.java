@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDa implements AutoCloseable{
+public class BookDa implements AutoCloseable {
     private Connection connection;
     private PreparedStatement statement;
 
@@ -21,7 +21,7 @@ public class BookDa implements AutoCloseable{
     public Book save(Book book) throws Exception {
         book.setId(Jdbc.nextId("BOOK_SEQ"));
         statement = connection.prepareStatement(
-                "INSERT INTO BOOK_TBL(ID,NAME,AUTHOR) VALUES (?,?,?)"
+                "INSERT INTO BOOK_TBL(ID,NAME, AUTHOR) VALUES (?,?,?)"
         );
         statement.setInt(1, book.getId());
         statement.setString(2, book.getName());
@@ -41,12 +41,13 @@ public class BookDa implements AutoCloseable{
         return book;
     }
 
-    public void remove(int id) throws Exception {
+    public Book remove(int id) throws Exception {
         statement = connection.prepareStatement(
                 "DELETE FROM BOOK_TBL WHERE ID=?"
         );
         statement.setInt(1, id);
         statement.execute();
+        return null;
     }
 
     public List<Book> findAll() throws Exception {
@@ -100,13 +101,12 @@ public class BookDa implements AutoCloseable{
         return book;
     }
 
-    public List<Book> findByAuthor(String author) throws Exception {
+    public Book findByAuthor(String author) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE AUTHOR=?"
         );
         statement.setString(1, author);
         ResultSet resultSet = statement.executeQuery();
-        List<Book> bookList = new ArrayList<>();
         Book book = null;
         while (resultSet.next()) {
             book = Book.builder()
@@ -114,9 +114,8 @@ public class BookDa implements AutoCloseable{
                     .name(resultSet.getString("NAME"))
                     .author(resultSet.getString("AUTHOR"))
                     .build();
-            bookList.add(book);
         }
-        return bookList;
+        return book;
     }
 
     @Override

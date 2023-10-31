@@ -1,11 +1,17 @@
 package mft.test;
 
-import mft.controller.BookController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import mft.model.entity.Book;
 
-public class BookTest {
-    public static void main(String[] args) throws Exception {
-        // test
-        BookController.save("Ja#$%#%va", "Oracle");
-        BookController.findAll();
+public class BookTest extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Scene scene=new Scene(FXMLLoader.load(getClass().getResource("../view/BookView.fxml")));
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Book");
+        primaryStage.show();
     }
 }
