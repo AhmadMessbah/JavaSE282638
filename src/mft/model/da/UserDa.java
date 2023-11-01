@@ -22,8 +22,7 @@ public class UserDa implements AutoCloseable {
     public User save(User user) throws Exception {
         user.setId(Jdbc.nextId("USER_SEQ"));
         statement = connection.prepareStatement(
-//                todo : با حروف بزرگ
-                "INSERT INTO USER_TBL(id, member_id, username, password, status) VALUES (?,?,?,?,?)"
+                "INSERT INTO USER_TBL(ID, MEMBER_ID, USERNAME, PASSWORD, STATUS) VALUES (?,?,?,?,?)"
         );
         statement.setInt(1, user.getId());
         statement.setInt(2, user.getMember().getId());

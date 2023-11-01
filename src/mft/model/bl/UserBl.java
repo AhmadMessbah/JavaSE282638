@@ -55,11 +55,11 @@ public class UserBl {
         }
     }
 
-    public static User findByUserName(String username) throws Exception {
+    public static User findByUserName(String username, int memberId) throws Exception {
         try (UserDa userDa = new UserDa()) {
             User user = userDa.findByUserName(username);
             if (user != null) {
-//              todo : user.setMember(MemberBl.findById(id));
+                user.setMember(MemberBl.findById(memberId));
                 return user;
             }
             throw new NoContentException("No User !");

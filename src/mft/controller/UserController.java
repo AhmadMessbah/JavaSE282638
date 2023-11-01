@@ -3,7 +3,6 @@ package mft.controller;
 import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.bl.UserBl;
-import mft.model.entity.Member;
 import mft.model.entity.User;
 
 import java.util.regex.Pattern;
