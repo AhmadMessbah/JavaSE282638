@@ -27,7 +27,7 @@ public class BorrowDa implements AutoCloseable {
         statement.setInt(2, borrow.getMember().getId());
         statement.setInt(3, borrow.getBook().getId());
         statement.setTimestamp(4, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
-        statement.setTimestamp(5,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
+        statement.setTimestamp(5, (borrow.getReturnTimeStamp() == null) ? null : Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.execute();
         return borrow;
     }
@@ -39,20 +39,19 @@ public class BorrowDa implements AutoCloseable {
         statement.setInt(1, borrow.getMember().getId());
         statement.setInt(2, borrow.getBook().getId());
         statement.setTimestamp(3, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
-        statement.setTimestamp(4,(borrow.getReturnTimeStamp()==null)?null: Timestamp.valueOf(borrow.getReturnTimeStamp()));
+        statement.setTimestamp(4, (borrow.getReturnTimeStamp() == null) ? null : Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.setInt(5, borrow.getId());
         statement.execute();
         return borrow;
     }
 
-    public void remove(int id) throws Exception {
-        //Borrow borrow = findById(id);
+    public int remove(int id) throws Exception {
         statement = connection.prepareStatement(
                 "DELETE FROM BORROW_TBL WHERE ID=?"
         );
         statement.setInt(1, id);
         statement.execute();
-        //return borrow;
+        return id;
     }
 
     public List<Borrow> findAll() throws Exception {
@@ -108,33 +107,41 @@ public class BorrowDa implements AutoCloseable {
         );
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
-        resultSet.next();
 
-        Member member = Member.builder()
-                .id(resultSet.getInt("M_ID"))
-                .name(resultSet.getString("M_NAME"))
-                .family(resultSet.getString("M_FAMILY"))
-                .build();
+        Borrow borrow = null;
 
-        Book book = Book.builder()
-                .id(resultSet.getInt("B_ID"))
-                .name(resultSet.getString("B_NAME"))
-                .author(resultSet.getString("B_AUTHOR"))
-                .build();
+        if (resultSet.next()) {
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-        LocalDateTime returnDateTime = null;
-        if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
-            returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
+
+            LocalDateTime returnDateTime = null;
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
+                returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
+            }
+
+            borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
         }
-
-        Borrow borrow = Borrow.builder()
-                .id(resultSet.getInt("BR_ID"))
-                .member(member)
-                .book(book)
-                .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                .returnTimeStamp(returnDateTime)
-                .build();
-
         return borrow;
     }
 
@@ -148,33 +155,38 @@ public class BorrowDa implements AutoCloseable {
         List<Borrow> borrowList = new ArrayList<>();
 
         while (resultSet.next()) {
-            Member member = Member.builder()
-                    .id(resultSet.getInt("M_ID"))
-                    .name(resultSet.getString("M_NAME"))
-                    .family(resultSet.getString("M_FAMILY"))
-                    .build();
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-            Book book = Book.builder()
-                    .id(resultSet.getInt("B_ID"))
-                    .name(resultSet.getString("B_NAME"))
-                    .author(resultSet.getString("B_AUTHOR"))
-                    .build();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
 
             LocalDateTime returnDateTime = null;
             if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
                 returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
             }
 
-            Borrow borrow = Borrow.builder()
-                    .id(resultSet.getInt("BR_ID"))
-                    .member(member)
-                    .book(book)
-                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                    .returnTimeStamp(returnDateTime)
-                    .build();
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
 
             borrowList.add(borrow);
-
         }
         return borrowList;
     }
@@ -183,36 +195,43 @@ public class BorrowDa implements AutoCloseable {
         statement = connection.prepareStatement(
                 "SELECT * from BORROW_REPORT where B_ID=?"
         );
-        statement.setInt(1,bookId);
+        statement.setInt(1, bookId);
         ResultSet resultSet = statement.executeQuery();
 
         List<Borrow> borrowList = new ArrayList<>();
 
         while (resultSet.next()) {
-            Member member = Member.builder()
-                    .id(resultSet.getInt("M_ID"))
-                    .name(resultSet.getString("M_NAME"))
-                    .family(resultSet.getString("M_FAMILY"))
-                    .build();
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-            Book book = Book.builder()
-                    .id(resultSet.getInt("B_ID"))
-                    .name(resultSet.getString("B_NAME"))
-                    .author(resultSet.getString("B_AUTHOR"))
-                    .build();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
 
             LocalDateTime returnDateTime = null;
+
             if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
                 returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
             }
 
-            Borrow borrow = Borrow.builder()
-                    .id(resultSet.getInt("BR_ID"))
-                    .member(member)
-                    .book(book)
-                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                    .returnTimeStamp(returnDateTime)
-                    .build();
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
 
             borrowList.add(borrow);
         }
@@ -272,7 +291,7 @@ public class BorrowDa implements AutoCloseable {
         String sqlCommand;
         if (returnStatus) {
             sqlCommand = "SELECT * FROM BORROW_REPORT WHERE RETURN_TIMESTAMP IS NOT NULL";
-        } else{
+        } else {
             sqlCommand = "SELECT * FROM BORROW_REPORT WHERE RETURN_TIMESTAMP IS NULL";
         }
 
@@ -282,127 +301,149 @@ public class BorrowDa implements AutoCloseable {
         List<Borrow> borrowList = new ArrayList<>();
 
         while (resultSet.next()) {
-            Member member = Member.builder()
-                    .id(resultSet.getInt("M_ID"))
-                    .name(resultSet.getString("M_NAME"))
-                    .family(resultSet.getString("M_FAMILY"))
-                    .build();
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-            Book book = Book.builder()
-                    .id(resultSet.getInt("B_ID"))
-                    .name(resultSet.getString("B_NAME"))
-                    .author(resultSet.getString("B_AUTHOR"))
-                    .build();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
 
             LocalDateTime returnDateTime = null;
+
             if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
                 returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
             }
 
-            Borrow borrow = Borrow.builder()
-                    .id(resultSet.getInt("BR_ID"))
-                    .member(member)
-                    .book(book)
-                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                    .returnTimeStamp(returnDateTime)
-                    .build();
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
 
             borrowList.add(borrow);
         }
         return borrowList;
     }
 
-    public int memberNotReturnedBooks(int memberId) throws Exception{
-         statement = connection.prepareStatement(
-                 "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL "
-         );
-         statement.setInt(1,memberId);
-         ResultSet resultSet = statement.executeQuery();
-         resultSet.next();
-         return resultSet.getInt(1);
+    public int memberNotReturnedBooks(int memberId) throws Exception {
+        statement = connection.prepareStatement(
+                "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL "
+        );
+        statement.setInt(1, memberId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getInt(1);
     }
 
-    public List<Borrow> findByBookName(String bookName) throws Exception{
+    public List<Borrow> findByBookName(String bookName) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BORROW_REPORT WHERE B_NAME LIKE ?"
+                "SELECT * FROM BORROW_REPORT WHERE B_NAME=?"
         );
-        statement.setString(1,bookName);
+        statement.setString(1, bookName);
 
         ResultSet resultSet = statement.executeQuery();
 
         List<Borrow> borrowList = new ArrayList<>();
 
-        while (resultSet.next()){
-            Member member = Member.builder()
-                    .id(resultSet.getInt("M_ID"))
-                    .name(resultSet.getString("M_NAME"))
-                    .family(resultSet.getString("M_FAMILY"))
-                    .build();
+        while (resultSet.next()) {
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-            Book book = Book.builder()
-                    .id(resultSet.getInt("B_ID"))
-                    .name(resultSet.getString("B_NAME"))
-                    .author(resultSet.getString("B_AUTHOR"))
-                    .build();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
 
             LocalDateTime returnDateTime = null;
-            if (resultSet.getTimestamp("RETURN_TIMESTAMP")!=null){
+
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
                 returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
             }
 
-            Borrow borrow = Borrow.builder()
-                    .id(resultSet.getInt("BR_ID"))
-                    .member(member)
-                    .book(book)
-                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                    .returnTimeStamp(returnDateTime)
-                    .build();
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
 
             borrowList.add(borrow);
         }
         return borrowList;
     }
 
-    public List<Borrow> findByMemberNameFamily(String name, String family) throws Exception{
+    public List<Borrow> findByMemberNameAndFamily(String name, String family) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BORROW_REPORT WHERE M_NAME LIKE ? AND M_FAMILY LIKE ?"
+                "SELECT * FROM BORROW_REPORT WHERE M_NAME=? AND M_FAMILY=?"
         );
-        statement.setString(1,name);
-        statement.setString(2,family);
+        statement.setString(1, name);
+        statement.setString(2, family);
         ResultSet resultSet = statement.executeQuery();
 
         List<Borrow> borrowList = new ArrayList<>();
 
-        while (resultSet.next()){
-            Member member = Member.builder()
-                    .id(resultSet.getInt("M_ID"))
-                    .name(resultSet.getString("M_NAME"))
-                    .family(resultSet.getString("M_FAMILY"))
-                    .build();
+        while (resultSet.next()) {
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
 
-            Book book = Book.builder()
-                    .id(resultSet.getInt("B_ID"))
-                    .name(resultSet.getString("B_NAME"))
-                    .author(resultSet.getString("B_AUTHOR"))
-                    .build();
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
 
             LocalDateTime returnDateTime = null;
-            if (resultSet.getTimestamp("RETURN_TIMESTAMP")!=null){
+
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
                 returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
             }
 
-            Borrow borrow = Borrow.builder()
-                    .id(resultSet.getInt("BR_ID"))
-                    .member(member)
-                    .book(book)
-                    .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
-                    .returnTimeStamp(returnDateTime)
-                    .build();
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .build();
 
             borrowList.add(borrow);
         }
         return borrowList;
     }
+
     @Override
     public void close() throws Exception {
         statement.close();
