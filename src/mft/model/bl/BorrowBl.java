@@ -61,7 +61,6 @@ public class BorrowBl {
 
     public static List<Borrow> findByMemberId(int memberId) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-            MemberBl.findById(memberId);
             List<Borrow> borrowList = borrowDa.findByMemberId(memberId);
             if (borrowList.size() > 0) {
                 return borrowList;
@@ -72,7 +71,6 @@ public class BorrowBl {
 
     public static List<Borrow> findByBookId(int bookId) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-            BookBl.findById(bookId);
             List<Borrow> borrowList = borrowDa.findByBookId(bookId);
             if (borrowList.size() > 0) {
                 return borrowList;
@@ -103,7 +101,6 @@ public class BorrowBl {
 
     public static List<Borrow> findByBookName(String bookName) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-            BookBl.findByName(bookName);
             List<Borrow> borrowList = borrowDa.findByBookName(bookName);
             if (borrowList.size() > 0) {
                 return borrowList;
@@ -114,7 +111,6 @@ public class BorrowBl {
 
     public static List<Borrow> findByMemberNameAndFamily(String name, String family) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-            MemberBl.findByNameAndFamily(name, family);
             List<Borrow> borrowList = borrowDa.findByMemberNameAndFamily(name, family);
             if (borrowList.size() > 0) {
                 return borrowList;

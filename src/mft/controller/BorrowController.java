@@ -96,6 +96,7 @@ public class BorrowController {
     public static String findByMemberId(int memberId) {
         String message;
         try {
+            MemberBl.findById(memberId);
             message = BorrowBl.findByMemberId(memberId).toString();
             Logger.info("FIND-BORROW", "BY MEMBER ID", 1);
         } catch (Exception e) {
@@ -108,6 +109,7 @@ public class BorrowController {
     public static String findByBookId(int bookId) {
         String message;
         try {
+            BookBl.findById(bookId);
             message = BorrowBl.findByBookId(bookId).toString();
             Logger.info("FIND-BORROW", "BY BOOK ID", 1);
         } catch (Exception e) {
@@ -145,6 +147,7 @@ public class BorrowController {
         String message;
         try {
             if (Pattern.matches("[\\w]{2,30}", bookName)) {
+                BookBl.findByName(bookName);
                 message = BorrowBl.findByBookName(bookName).toString();
                 Logger.info("FIND-BORROW", "BY BOOK'S NAME", 1);
             } else {
@@ -162,6 +165,7 @@ public class BorrowController {
         String message;
         try {
             if (Pattern.matches("[a-zA-z\\s]{2,30}", name) && Pattern.matches("[a-zA-z\\s]{2,30}", family)) {
+                MemberBl.findByNameAndFamily(name, family);
                 message = BorrowBl.findByMemberNameAndFamily(name, family).toString();
                 Logger.info("FIND-BORROW", "BY MEMBER'S NAME AND FAMILY", 1);
             } else {
