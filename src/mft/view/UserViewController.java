@@ -33,26 +33,44 @@ public class UserViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         saveBtn.setOnAction(event -> {
-            String message = UserController.save(1, usernameTxt.getText(), passwordTxt.getText());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+            User user = User.builder()
+                    .id(Integer.parseInt(idTxt.getText()))
+                    .userName(usernameTxt.getText())
+                    .password(passwordTxt.getText())
+                    .build();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
+            alert.show();
+        });
+        editBtn.setOnAction(event -> {
+            User user = User.builder()
+                    .userName(usernameTxt.getText())
+                    .build();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
+            alert.show();
+        });
+        removeBtn.setOnAction(event -> {
+            User user = User.builder()
+                    .id(Integer.parseInt(idTxt.getText()))
+                    .build();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
             alert.show();
         });
 
 
     }
 
-    public void resetForm(){
-        try{
+    public void resetForm() {
+        try {
             idTxt.clear();
             usernameTxt.clear();
             passwordTxt.clear();
             showDataOnTable(UserController.findAll());
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    public void showDataOnTable(List<User> userList){
+    public void showDataOnTable(List<User> userList) {
         userTbl.getColumns().clear();
         ObservableList<User> users = FXCollections.observableList(userList);
 
@@ -61,8 +79,6 @@ public class UserViewController implements Initializable {
 
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("Username"));
-
-
 
 
         userTbl.getColumns().addAll(idCol);
