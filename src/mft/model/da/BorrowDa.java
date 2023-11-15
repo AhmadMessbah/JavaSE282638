@@ -20,14 +20,14 @@ public class BorrowDa implements AutoCloseable {
 
     public Borrow save(Borrow borrow) throws Exception {
         borrow.setId(Jdbc.nextId("BORROW_SEQ"));
+        borrow.setBorrowTimeStamp(LocalDateTime.now());
         statement = connection.prepareStatement(
-                "INSERT INTO BORROW_TBL(ID, MEMBER_ID, BOOK_ID, BORROW_TIMESTAMP, RETURN_TIMESTAMP) VALUES (?,?,?,?,?)"
+                "INSERT INTO BORROW_TBL(ID, MEMBER_ID, BOOK_ID, BORROW_TIMESTAMP) VALUES (?,?,?,?)"
         );
         statement.setInt(1, borrow.getId());
         statement.setInt(2, borrow.getMember().getId());
         statement.setInt(3, borrow.getBook().getId());
         statement.setTimestamp(4, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
-        statement.setTimestamp(5, (borrow.getReturnTimeStamp() == null) ? null : Timestamp.valueOf(borrow.getReturnTimeStamp()));
         statement.execute();
         return borrow;
     }

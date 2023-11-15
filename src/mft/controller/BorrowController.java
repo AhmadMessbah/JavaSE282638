@@ -7,33 +7,29 @@ import mft.model.bl.MemberBl;
 import mft.model.entity.Borrow;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class BorrowController {
 
-    public static String save(int memberId, int bookId, LocalDateTime borrowTimeStamp, LocalDateTime returnTimeStamp) {
-        String message;
+    public static Borrow save(int memberId, int bookId) {
         try {
             Borrow borrow =
                     Borrow
                             .builder()
                             .member(MemberBl.findById(memberId))
                             .book(BookBl.findById(bookId))
-                            .borrowTimeStamp(borrowTimeStamp)
-                            .returnTimeStamp(returnTimeStamp)
                             .build();
             BorrowBl.save(borrow);
-            message = borrow + " Saved";
             Logger.info("SAVE-BORROW", borrow.toString(), 1);
+            return borrow;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("SAVE-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String edit(int borrowId, int memberId, int bookId, LocalDateTime borrowTimeStamp, LocalDateTime returnTimeStamp) {
-        String message;
+    public static Borrow edit(int borrowId, int memberId, int bookId, LocalDateTime borrowTimeStamp, LocalDateTime returnTimeStamp) {
         try {
             Borrow borrow =
                     Borrow
@@ -46,136 +42,127 @@ public class BorrowController {
                             .build();
 
             BorrowBl.edit(borrow);
-            message = borrow + "Edited";
             Logger.info("EDIT BORROW", borrow.toString(), 1);
+            return borrow;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("EDIT-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String remove(int id) {
-        String message;
+    public static Borrow remove(int id) {
         try {
             Borrow borrow = BorrowBl.findById(id);
             BorrowBl.remove(id);
-            message = borrow + "Removed";
             Logger.info("REMOVE-BORROW", borrow.toString(), 1);
+            return borrow;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("REMOVE-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findAll() {
-        String message;
+    public static List<Borrow> findAll() {
         try {
-            message = BorrowBl.findAll().toString();
+            List<Borrow> borrowList = BorrowBl.findAll();
             Logger.info("FIND-BORROW", "ALL", 1);
+            return borrowList;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findById(int id) {
-        String message;
+    public static Borrow findById(int id) {
         try {
-            message = BorrowBl.findById(id).toString();
-            Logger.info("FIND BORROW BY ID", message, 1);
+            Borrow borrow = BorrowBl.findById(id);
+            Logger.info("FIND BORROW BY ID", borrow.toString(), 1);
+            return borrow;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByMemberId(int memberId) {
+    public static List<Borrow> findByMemberId(int memberId) {
         String message;
         try {
             MemberBl.findById(memberId);
-            message = BorrowBl.findByMemberId(memberId).toString();
+            List<Borrow> borrowList = BorrowBl.findByMemberId(memberId);
             Logger.info("FIND-BORROW", "BY MEMBER ID", 1);
+            return borrowList;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByBookId(int bookId) {
-        String message;
+    public static List<Borrow> findByBookId(int bookId) {
         try {
             BookBl.findById(bookId);
-            message = BorrowBl.findByBookId(bookId).toString();
+            List<Borrow> borrowList = BorrowBl.findByBookId(bookId);
             Logger.info("FIND-BORROW", "BY BOOK ID", 1);
+            return borrowList;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByBorrowTimeStampRange(LocalDateTime startTimeStamp, LocalDateTime endTimeStamp) {
+    public static List<Borrow> findByBorrowTimeStampRange(LocalDateTime startTimeStamp, LocalDateTime endTimeStamp) {
         String message;
         try {
-            message = BorrowBl.findByBorrowTimeStampRange(startTimeStamp, endTimeStamp).toString();
+            List<Borrow> borrowList = BorrowBl.findByBorrowTimeStampRange(startTimeStamp, endTimeStamp);
             Logger.info("FIND-BORROW", "BY TIMESTAMP RANGE", 1);
+            return borrowList;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByReturnStatus(boolean returnStatus) {
-        String message;
+    public static List<Borrow> findByReturnStatus(boolean returnStatus) {
         try {
-            message = BorrowBl.findByReturnStatus(returnStatus).toString();
+            List<Borrow> borrowList = BorrowBl.findByReturnStatus(returnStatus);
             Logger.info("FIND-BORROW", "BY RETURN STATUS", 1);
+            return borrowList;
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByBookName(String bookName) {
-        String message;
+    public static List<Borrow> findByBookName(String bookName) {
         try {
             if (Pattern.matches("[\\w]{2,30}", bookName)) {
                 BookBl.findByName(bookName);
-                message = BorrowBl.findByBookName(bookName).toString();
+                List<Borrow> borrowList = BorrowBl.findByBookName(bookName);
                 Logger.info("FIND-BORROW", "BY BOOK'S NAME", 1);
+                return borrowList;
             } else {
-                message = "Invalid Data !";
-                Logger.error("FIND-ERROR", message, 1);
+                Logger.error("FIND-ERROR", "Invalid Data !", 1);
+                return null;
             }
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 
-    public static String findByMemberNameAndFamily(String name, String family) {
-        String message;
+    public static List<Borrow> findByMemberNameAndFamily(String name, String family) {
         try {
             if (Pattern.matches("[a-zA-z\\s]{2,30}", name) && Pattern.matches("[a-zA-z\\s]{2,30}", family)) {
                 MemberBl.findByNameAndFamily(name, family);
-                message = BorrowBl.findByMemberNameAndFamily(name, family).toString();
+                List<Borrow> borrowList = BorrowBl.findByMemberNameAndFamily(name, family);
                 Logger.info("FIND-BORROW", "BY MEMBER'S NAME AND FAMILY", 1);
+                return borrowList;
             } else {
-                message = "Invali Data !";
-                Logger.error("FIND-ERROR", message, 1);
+                Logger.error("FIND-ERROR", "Invali Data !", 1);
+                return null;
             }
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("FIND-ERROR", e.getMessage(), 1);
+            return null;
         }
-        return message;
     }
 }
