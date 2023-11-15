@@ -19,28 +19,15 @@ public class UserViewController implements Initializable {
     @FXML
     private Button signupBtn;
 
-    @FXML
-    private ComboBox cityCmb, genderCmb;
-
-
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         signupBtn.setOnAction(event -> {
-            String message = UserController.save(1,usernameTxt.getText(),passwordTxt.getText());
+            String message = UserController.save(1, usernameTxt.getText(), passwordTxt.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
             alert.show();
-
-            genderCmb.getItems().add("Male");
-            genderCmb.getItems().add("Female");
-
-            cityCmb.getItems().add("Tehran");
-            cityCmb.getItems().add("Shiraz");
-            cityCmb.getItems().add("Gilan");
-            cityCmb.getItems().add("Tabriz");
         });
-    }
 
+
+    }
 }
