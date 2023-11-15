@@ -3,7 +3,6 @@ package mft.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import mft.controller.BookController;
 import mft.model.entity.Book;
 
 import java.net.URL;
@@ -54,6 +53,12 @@ public class BookViewController implements Initializable {
                     book.toString()+" Removed",
                     ButtonType.OK);
             alert.show();
+        });
+        table.setOnMouseClicked((event) -> {
+            Book book=table.getSelectionModel().getSelectedItem();
+            idTxt.setText(String.valueOf(book.getId()));
+            nameTxt.setText(String.valueOf(book.getName()));
+            authorTxt.setText(String.valueOf(book.getAuthor()));
         });
     }
 }
