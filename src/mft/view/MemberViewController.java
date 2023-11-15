@@ -49,6 +49,7 @@ public class MemberViewController implements Initializable {
             Member member = Member.builder().id(Integer.parseInt(idTxt.getText())).build();
             Alert alert = new Alert(Alert.AlertType.INFORMATION, member.toString() + " Removed", ButtonType.OK);
             alert.show();
+            resetForm();
         });
     }
 
@@ -63,7 +64,6 @@ public class MemberViewController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     public void showDataOnTable(List<Member> memberList) {
         table.getColumns().clear();
