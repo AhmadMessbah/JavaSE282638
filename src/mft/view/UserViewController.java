@@ -27,33 +27,37 @@ public class UserViewController implements Initializable {
     private Button saveBtn, editBtn, removeBtn;
 
     @FXML
-    private TableView userTbl;
+    private TableView<User> userTbl;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        resetForm();
+
+        userTbl.setOnMouseClicked((event)->{
+            User user = userTbl.getSelectionModel().getSelectedItem();
+            idTxt.setText(String.valueOf(user.getId()));
+            usernameTxt.setText(user.getUserName());
+            passwordTxt.setText(user.getPassword());
+        });
+
         saveBtn.setOnAction(event -> {
-            User user = User.builder()
-                    .id(Integer.parseInt(idTxt.getText()))
-                    .userName(usernameTxt.getText())
-                    .password(passwordTxt.getText())
-                    .build();
+            User user = UserController.save(1,usernameTxt.getText(),passwordTxt.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
             alert.show();
+            resetForm();
         });
         editBtn.setOnAction(event -> {
-            User user = User.builder()
-                    .userName(usernameTxt.getText())
-                    .build();
+            User user = UserController.edit(Integer.parseInt(idTxt.getText()), usernameTxt.getText(), passwordTxt.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
             alert.show();
+            resetForm();
         });
         removeBtn.setOnAction(event -> {
-            User user = User.builder()
-                    .id(Integer.parseInt(idTxt.getText()))
-                    .build();
+            User user = UserController.remove(Integer.parseInt(idTxt.getText()));
             Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
             alert.show();
+            resetForm();
         });
 
 
@@ -78,10 +82,10 @@ public class UserViewController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
-        usernameCol.setCellValueFactory(new PropertyValueFactory<>("Username"));
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("UserName"));
 
 
-        userTbl.getColumns().addAll(idCol);
+        userTbl.getColumns().addAll(idCol,usernameCol);
         userTbl.setItems(users);
     }
 }

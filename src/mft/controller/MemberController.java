@@ -32,10 +32,10 @@ public class MemberController {
         return result;
     }
 
-    public static Member edit(String name, String family) {
+    public static Member edit(int id, String name, String family) {
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(family, 30)) {
-                Member member = Member.builder().name(name).family(family).build();
+                Member member = Member.builder().id(id).name(name).family(family).build();
                 MemberBl.edit(member);
                 Logger.info("EDIT MEMBER", member.toString(),0);
                 return member;
@@ -49,7 +49,7 @@ public class MemberController {
         }
     }
 
-    public static Member remove(int id) throws Exception {
+    public static Member remove(int id)  {
         try {
             Member member = MemberBl.findById(id);
             MemberBl.remove(id);
@@ -61,7 +61,7 @@ public class MemberController {
         }
     }
 
-    public static List<Member> findAll() throws Exception {
+    public static List<Member> findAll()  {
         try {
             List<Member> memberList = MemberBl.findAll();
             Logger.info("FIND MEMBER", "ALL",0);
@@ -72,7 +72,7 @@ public class MemberController {
         }
     }
 
-    public static Member findById(int id) throws Exception {
+    public static Member findById(int id)  {
         try {
             Member member = MemberBl.findById(id);
             Logger.info("FIND MEMBER", "ID",0);
@@ -83,7 +83,7 @@ public class MemberController {
         }
     }
 
-    public static Member findByNameAndFamily(String name, String family) throws Exception {
+    public static Member findByNameAndFamily(String name, String family)  {
         try {
             Member member = MemberBl.findByNameAndFamily(name, family);
             Logger.info("FIND MEMBER By Name/Family", name + "/" + family,0);
