@@ -18,6 +18,11 @@ public class User {
     private String password;
     private boolean status;
 
+    public User(int id, String userName, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+    }
 
     @Override
     public String toString() {
