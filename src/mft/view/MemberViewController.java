@@ -40,15 +40,16 @@ public class MemberViewController implements Initializable {
             resetForm();
         });
         editBtn.setOnAction(event -> {
-            Member member = Member.builder().id(Integer.parseInt(idTxt.getText())).name(nameTxt.getText()).family(familyTxt.getText()).build();
+            Member member = MemberController.edit(Integer.parseInt(idTxt.getText()),nameTxt.getText(),familyTxt.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION, member.toString() + " Edited", ButtonType.OK);
             alert.show();
             resetForm();
         });
         removeBtn.setOnAction(event -> {
-            Member member = Member.builder().id(Integer.parseInt(idTxt.getText())).build();
+            Member member = MemberController.remove(Integer.parseInt(idTxt.getText()));
             Alert alert = new Alert(Alert.AlertType.INFORMATION, member.toString() + " Removed", ButtonType.OK);
             alert.show();
+            resetForm();
         });
     }
 
@@ -63,7 +64,6 @@ public class MemberViewController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     public void showDataOnTable(List<Member> memberList) {
         table.getColumns().clear();
