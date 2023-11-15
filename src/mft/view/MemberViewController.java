@@ -8,9 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mft.controller.MemberController;
 import mft.model.entity.Member;
+
 import java.net.URL;
 import java.util.List;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MemberViewController implements Initializable {
@@ -33,11 +35,17 @@ public class MemberViewController implements Initializable {
             familyTxt.setText(String.valueOf(member.getFamily()));
         });
 
+//         todo : الگو
         saveBtn.setOnAction(event -> {
-            Member member = MemberController.save(nameTxt.getText(),familyTxt.getText());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, member.toString() + " Saved", ButtonType.OK);
-            alert.show();
-            resetForm();
+            Map<String, String> result = MemberController.save(nameTxt.getText(), familyTxt.getText());
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
         });
         editBtn.setOnAction(event -> {
             Member member = Member.builder().id(Integer.parseInt(idTxt.getText())).name(nameTxt.getText()).family(familyTxt.getText()).build();
@@ -79,7 +87,7 @@ public class MemberViewController implements Initializable {
         familyCol.setCellValueFactory(new PropertyValueFactory<>("family"));
 
 
-        table.getColumns().addAll(idCol,nameCol,familyCol);
+        table.getColumns().addAll(idCol, nameCol, familyCol);
         table.setItems(members);
     }
 }

@@ -4,24 +4,32 @@ import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.entity.Member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemberController {
-    public static Member save(String name, String family){
+//         todo : الگو
+    public static Map<String, String> save(String name, String family){
+        Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(family, 30)) {
                 Member member = Member.builder().name(name).family(family).build();
                 MemberBl.save(member);
                 Logger.info("SAVE MEMBER", member.toString(), 0);
-                return member;
+                result.put("status", "true");
+                result.put("message", member.toString()+" Saved");
             } else {
                 Logger.error("SAVE MEMBER", "INVALID DATA", 0);
-                return null;
+                result.put("status", "false");
+                result.put("message","Invalid Data");
             }
         } catch (Exception e) {
             Logger.error("SAVE MEMBER", e.getMessage(), 0);
-            return null;
+            result.put("status", "false");
+            result.put("message",e.getMessage());
         }
+        return result;
     }
 
     public static Member edit(String name, String family) {

@@ -19,6 +19,8 @@ public class Borrow {
     private Book book;
     private LocalDateTime borrowTimeStamp;
     private LocalDateTime returnTimeStamp;
+    private String description;
+    private boolean deleted;
 
     @Override
     public String toString() {

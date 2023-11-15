@@ -15,6 +15,13 @@ public class Book {
     private int id;
     private String name;
     private String author;
+    private int pages;
+    private String publisher;
+    private String language;
+    private String genre;
+    private String isbn;
+    private String description;
+    private boolean deleted;
 
     @Override
     public String toString() {

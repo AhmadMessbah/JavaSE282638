@@ -16,7 +16,10 @@ public class User {
     private Member member;
     private String userName;
     private String password;
+    private String nickName;
+    private String image;
     private boolean status;
+    private boolean deleted;
 
 
     @Override
