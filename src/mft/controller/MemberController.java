@@ -24,10 +24,10 @@ public class MemberController {
         }
     }
 
-    public static Member edit(String name, String family) {
+    public static Member edit(int id, String name, String family) {
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(family, 30)) {
-                Member member = Member.builder().name(name).family(family).build();
+                Member member = Member.builder().id(id).name(name).family(family).build();
                 MemberBl.edit(member);
                 Logger.info("EDIT MEMBER", member.toString(),0);
                 return member;
