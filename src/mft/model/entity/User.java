@@ -16,8 +16,16 @@ public class User {
     private Member member;
     private String userName;
     private String password;
+    private String nickName;
+    private String image;
     private boolean status;
+    private boolean deleted;
 
+    public User(int id, String userName, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+    }
 
     @Override
     public String toString() {

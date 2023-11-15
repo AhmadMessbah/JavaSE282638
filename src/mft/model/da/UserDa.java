@@ -35,13 +35,11 @@ public class UserDa implements AutoCloseable {
 
     public User edit(User user) throws Exception {
         statement = connection.prepareStatement(
-                "UPDATE USER_TBL SET MEMBER_ID=?, USERNAME=?, PASSWORD=?, STATUS=? WHERE ID=?"
+                "UPDATE USER_TBL SET USERNAME=?, PASSWORD=? WHERE ID=?"
         );
-        statement.setInt(1, user.getMember().getId());
-        statement.setString(2, user.getUserName());
-        statement.setString(3, user.getPassword());
-        statement.setBoolean(4, user.isStatus());
-        statement.setInt(5, user.getId());
+        statement.setString(1, user.getUserName());
+        statement.setString(2, user.getPassword());
+        statement.setInt(3, user.getId());
         statement.execute();
         return user;
     }
@@ -64,8 +62,6 @@ public class UserDa implements AutoCloseable {
         while (resultSet.next()) {
             Member member = Member.builder()
                     .id(resultSet.getInt("ID"))
-                    .name(resultSet.getString("NAME"))
-                    .family(resultSet.getString("FAMILY"))
                     .build();
 
             User user = User.builder()
@@ -90,8 +86,8 @@ public class UserDa implements AutoCloseable {
         if (resultSet.next()) {
             Member member = Member.builder()
                     .id(resultSet.getInt("ID"))
-                    .name(resultSet.getString("NAME"))
-                    .family(resultSet.getString("FAMILY"))
+//                    .name(resultSet.getString("NAME"))
+//                    .family(resultSet.getString("FAMILY"))
                     .build();
 
             user = User.builder()

@@ -37,9 +37,18 @@ public class MemberDa implements AutoCloseable{
         return member;
     }
 
-    public void remove(int id) throws Exception {
+//    public void remove(int id) throws Exception {
+//        preparedStatement = connection.prepareStatement(
+//                "DELETE FROM MEMBER_TBL WHERE ID=?"
+//        );
+//        preparedStatement.setInt(1, id);
+//        preparedStatement.execute();
+//    }
+
+//         todo : الگو
+public void remove(int id) throws Exception {
         preparedStatement = connection.prepareStatement(
-                "DELETE FROM MEMBER_TBL WHERE ID=?"
+                "UPDATE MEMBER_TBL SET DELETED=1 WHERE ID=?"
         );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
