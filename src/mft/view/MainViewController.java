@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import mft.controller.BaseController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,9 +18,12 @@ public class MainViewController implements Initializable {
     @FXML
     private Button memberBtn, userBtn, bookBtn, borrowBtn;
 
+    @FXML
+    private Label userLbl;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        userLbl.setText("Welcome, "+ BaseController.user.getUserName());
         memberBtn.setOnAction((event) -> {
             try {
                 Stage stage = new Stage();
@@ -26,6 +31,7 @@ public class MainViewController implements Initializable {
                 stage.setTitle("Member");
                 stage.setScene(scene);
                 stage.show();
+                memberBtn.getScene().getWindow().hide();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
@@ -39,6 +45,7 @@ public class MainViewController implements Initializable {
                 stage.setTitle("User");
                 stage.setScene(scene);
                 stage.show();
+                userBtn.getScene().getWindow().hide();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
@@ -52,6 +59,7 @@ public class MainViewController implements Initializable {
                 stage.setTitle("Book");
                 stage.setScene(scene);
                 stage.show();
+                bookBtn.getScene().getWindow().hide();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
@@ -65,6 +73,7 @@ public class MainViewController implements Initializable {
                 stage.setTitle("Borrow");
                 stage.setScene(scene);
                 stage.show();
+                borrowBtn.getScene().getWindow().hide();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();

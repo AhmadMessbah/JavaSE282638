@@ -37,6 +37,7 @@ public class LoginViewController implements Initializable {
                     stage.setScene(scene);
                     stage.setTitle("Main");
                     stage.show();
+                    loginBtn.getScene().getWindow().hide();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Access Denied", ButtonType.OK);
                     alert.show();
