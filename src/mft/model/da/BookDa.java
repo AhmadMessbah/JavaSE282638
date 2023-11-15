@@ -86,7 +86,7 @@ public class BookDa implements AutoCloseable {
 
     public Book findByName(String name) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE NAME=?"
+                "SELECT * FROM BOOK_TBL WHERE NAME LIKE ?"
         );
         statement.setString(1, name);
         ResultSet resultSet = statement.executeQuery();
@@ -103,7 +103,7 @@ public class BookDa implements AutoCloseable {
 
     public Book findByAuthor(String author) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE AUTHOR=?"
+                "SELECT * FROM BOOK_TBL WHERE AUTHOR LIKE ?"
         );
         statement.setString(1, author);
         ResultSet resultSet = statement.executeQuery();

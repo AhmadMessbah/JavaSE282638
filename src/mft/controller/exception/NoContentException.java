@@ -1,4 +1,4 @@
-package mft.exception;
+package mft.controller.exception;
 
 public class NoContentException extends Exception{
     private String message;

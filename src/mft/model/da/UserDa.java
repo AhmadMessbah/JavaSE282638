@@ -124,6 +124,7 @@ public class UserDa implements AutoCloseable {
         return user;
     }
 
+    // Login.
     public User findByUserNameAndPassword(String username, String password) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM USER_TBL WHERE USERNAME=? AND PASSWORD=?"
@@ -135,8 +136,6 @@ public class UserDa implements AutoCloseable {
         if (resultSet.next()) {
             Member member = Member.builder()
                     .id(resultSet.getInt("ID"))
-                    .name(resultSet.getString("NAME"))
-                    .family(resultSet.getString("FAMILY"))
                     .build();
 
             user = User.builder()

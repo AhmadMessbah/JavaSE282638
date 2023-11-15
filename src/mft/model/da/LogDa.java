@@ -38,7 +38,7 @@ public class LogDa implements AutoCloseable{
 
     public List<Log> findAll() throws Exception {
         connection = Jdbc.getConnection();
-        statement = connection.prepareStatement("SELECT * FROM LOG_TBL WHERE DELETE=0");
+        statement = connection.prepareStatement("SELECT * FROM LOG_TBL");
         ResultSet resultSet = statement.executeQuery();
         List<Log> logList = new ArrayList<>();
         while (resultSet.next()) {

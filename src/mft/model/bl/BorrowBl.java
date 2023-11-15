@@ -1,7 +1,7 @@
 package mft.model.bl;
 
-import mft.exception.NoContentException;
-import mft.exception.NotReturnedBookException;
+import mft.controller.exception.NoContentException;
+import mft.controller.exception.NotReturnedBookException;
 import mft.model.da.BorrowDa;
 import mft.model.entity.Borrow;
 
@@ -12,7 +12,7 @@ public class BorrowBl {
 
     public static Borrow save(Borrow borrow) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-            if (borrowDa.memberNotReturnedBooks(borrow.getMember().getId()) == 0) {
+            if (borrowDa.booksCountNotReturned(borrow.getMember().getId()) == 0) {
                 return borrowDa.save(borrow);
             }
             throw new NotReturnedBookException("Previous Borrowed Book not returned !");
@@ -25,6 +25,12 @@ public class BorrowBl {
                 return borrowDa.edit(borrow);
             }
             throw new NoContentException("Invalid borrow ID !");
+        }
+    }
+
+    public int returnBook(int bookId) throws Exception {
+        try (BorrowDa borrowDa = new BorrowDa()) {
+                return borrowDa.returnBook(bookId);
         }
     }
 

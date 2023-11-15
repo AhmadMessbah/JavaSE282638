@@ -45,6 +45,16 @@ public class BorrowDa implements AutoCloseable {
         return borrow;
     }
 
+    public int returnBook(int bookId) throws Exception {
+        statement = connection.prepareStatement(
+                "UPDATE BORROW_TBL SET RETURN_TIMESTAMP=? WHERE ID=?"
+        );
+        statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+        statement.setInt(2, bookId);
+        statement.execute();
+        return bookId;
+    }
+
     public int remove(int id) throws Exception {
         statement = connection.prepareStatement(
                 "DELETE FROM BORROW_TBL WHERE ID=?"
@@ -338,7 +348,7 @@ public class BorrowDa implements AutoCloseable {
         return borrowList;
     }
 
-    public int memberNotReturnedBooks(int memberId) throws Exception {
+    public int booksCountNotReturned(int memberId) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL "
         );

@@ -1,4 +1,4 @@
-package mft.exception;
+package mft.controller.exception;
 
 public class DuplicateUserNameException extends Exception{
     private String message;

@@ -1,15 +1,10 @@
 package mft.model.bl;
 
-import com.google.gson.Gson;
-import com.sun.org.apache.bcel.internal.generic.ARETURN;
-import com.sun.org.apache.bcel.internal.generic.DRETURN;
-import mft.controller.BookController;
-import mft.exception.DuplicateBookNameException;
-import mft.exception.NoContentException;
+import mft.controller.exception.DuplicateBookNameException;
+import mft.controller.exception.NoContentException;
 import mft.model.da.BookDa;
 import mft.model.entity.Book;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookBl {

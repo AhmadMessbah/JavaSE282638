@@ -17,6 +17,7 @@ public class MemberViewController implements Initializable {
     private TableView<Member> table;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+//        resetForm();
         saveBtn.setOnAction(event -> {
             Member member=
                     Member

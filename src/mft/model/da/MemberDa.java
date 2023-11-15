@@ -96,6 +96,7 @@ public class MemberDa implements AutoCloseable{
         }
         return member;
     }
+
     @Override
     public void close() throws Exception {
         preparedStatement.close();

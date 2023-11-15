@@ -3,6 +3,7 @@ package mft.controller;
 import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.bl.UserBl;
+import mft.model.da.UserDa;
 import mft.model.entity.User;
 
 import java.util.regex.Pattern;
@@ -11,7 +12,7 @@ public class UserController {
     public static String save(int memberId, String userName, String password) {
         String message;
         try {
-            if (Pattern.matches("[a-zA-Z\\d\\s]{2,30}", userName) && Pattern.matches("[a-zA-Z\\d\\s]{2,30}", password)){
+            if (Pattern.matches("[a-zA-Z\\d\\s]{2,30}", userName) && Pattern.matches("[a-zA-Z\\d\\s]{2,30}", password)) {
                 User user =
                         User.builder()
                                 .userName(userName)
@@ -21,15 +22,26 @@ public class UserController {
                                 .build();
                 UserBl.save(user);
                 message = user + " Saved";
-                Logger.info("Save-User",user.toString(),1);
-            }else {
+                Logger.info("Save-User", user.toString(), 1);
+            } else {
                 message = "Invalid Data";
-                Logger.info("Save-Error",message,1);
+                Logger.info("Save-Error", message, 1);
             }
         } catch (Exception e) {
-            message = "Error : " + e.getMessage() ;
-            Logger.info("Save-Error",e.getMessage(),1);
+            message = "Error : " + e.getMessage();
+            Logger.info("Save-Error", e.getMessage(), 1);
         }
         return message;
+    }
+
+    public static User login(String userName, String password) {
+        try {
+            User user = UserBl.findByUserNameAndPassword(userName,password);
+            Logger.info("Login", user.toString(), user.getId());
+            return user;
+        } catch (Exception e) {
+            Logger.info("Login-Error", e.getMessage(), 1);
+        }
+        return null;
     }
 }

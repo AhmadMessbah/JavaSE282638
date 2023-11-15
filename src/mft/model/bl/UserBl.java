@@ -1,7 +1,8 @@
 package mft.model.bl;
 
-import mft.exception.DuplicateUserNameException;
-import mft.exception.NoContentException;
+import mft.controller.exception.AccessDeniedException;
+import mft.controller.exception.DuplicateUserNameException;
+import mft.controller.exception.NoContentException;
 import mft.model.da.UserDa;
 import mft.model.entity.User;
 
@@ -70,10 +71,10 @@ public class UserBl {
         try (UserDa userDa = new UserDa()) {
             User user = userDa.findByUserNameAndPassword(username, password);
             if (user != null) {
+                user.setMember(MemberBl.findById(user.getMember().getId()));
                 return user;
             }
-            throw new NoContentException();
-
+            throw new AccessDeniedException();
         }
     }
 
