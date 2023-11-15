@@ -16,7 +16,6 @@ public class Member {
     private String name;
     private String family;
 
-
     @Override
     public String toString() {
         Gson gson = new Gson();
