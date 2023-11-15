@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 
 public class MemberViewController implements Initializable {
     @FXML
+    public TableColumn idCol, nameCol, familyCol;
+    @FXML
     private TextField idTxt, nameTxt, familyTxt;
     @FXML
     private Button saveBtn, editBtn, removeBtn;
@@ -32,7 +34,7 @@ public class MemberViewController implements Initializable {
         });
 
         saveBtn.setOnAction(event -> {
-            Member member = Member.builder().id(Integer.parseInt(idTxt.getText())).name(nameTxt.getText()).family(familyTxt.getText()).build();
+            Member member = MemberController.save(nameTxt.getText(),familyTxt.getText());
             Alert alert = new Alert(Alert.AlertType.INFORMATION, member.toString() + " Saved", ButtonType.OK);
             alert.show();
             resetForm();
@@ -57,7 +59,8 @@ public class MemberViewController implements Initializable {
             familyTxt.clear();
             showDataOnTable(MemberController.findAll());
         } catch (Exception e) {
-
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -66,7 +69,7 @@ public class MemberViewController implements Initializable {
         table.getColumns().clear();
         ObservableList<Member> members = FXCollections.observableList(memberList);
 
-        TableColumn<Member, String> idCol = new TableColumn<>("ID");
+        TableColumn<Member, String> idCol = new TableColumn<>("Id");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<Member, String> nameCol = new TableColumn<>("Name");
@@ -76,7 +79,7 @@ public class MemberViewController implements Initializable {
         familyCol.setCellValueFactory(new PropertyValueFactory<>("family"));
 
 
-        table.getColumns().addAll(idCol);
+        table.getColumns().addAll(idCol,nameCol,familyCol);
         table.setItems(members);
     }
 }
