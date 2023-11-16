@@ -27,15 +27,17 @@
         </rowConstraints>
          <children>
             <Label text="Id" />
-            <Label text="Username" GridPane.rowIndex="1" />
-            <Label text="Password" GridPane.rowIndex="2" />
+            <Label text="Nickname" GridPane.rowIndex="1" />
+            <Label text="Username" GridPane.rowIndex="2" />
+            <Label text="Password" GridPane.rowIndex="3" />
             <TextField fx:id="idTxt" editable="false" promptText="EnterId" GridPane.columnIndex="1" />
-            <TextField fx:id="usernameTxt" promptText="EnterUsername" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="nicknameTxt" promptText="EnterNickname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="usernameTxt" promptText="EnterUsername" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="11.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordTxt" prefWidth="117.0" promptText="EnterPassword" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <PasswordField fx:id="passwordTxt" prefWidth="117.0" promptText="EnterPassword" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="11.0" />
                </font>
@@ -44,7 +46,7 @@
       </GridPane>
       <Button fx:id="saveBtn" layoutX="58.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Save" />
       <Button fx:id="editBtn" layoutX="134.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Edit" />
-      <Button fx:id="removeBtn" layoutX="217.0" layoutY="232.0" mnemonicParsing="false" text="Remove" />
+      <Button fx:id="removeBtn" layoutX="210.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Remove" />
       <TableView fx:id="userTbl" layoutX="311.0" layoutY="31.0" prefHeight="219.0" prefWidth="260.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
