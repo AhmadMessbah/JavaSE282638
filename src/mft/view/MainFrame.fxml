@@ -2,51 +2,42 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view.MainViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view.MainViewController">
    <children>
-      <Button fx:id="memberBtn" layoutX="407.0" layoutY="53.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" text="Member" />
-      <Button fx:id="userBtn" layoutX="407.0" layoutY="131.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" text="User" />
-      <Button fx:id="bookBtn" layoutX="407.0" layoutY="209.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" text="Book" />
-      <Button fx:id="borrowBtn" layoutX="407.0" layoutY="288.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" text="Borrow" />
-      <MenuBar layoutY="2.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Member">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="User">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Book">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Borrow">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-        </menus>
-      </MenuBar>
-      <Label fx:id="userLbl" layoutX="33.0" layoutY="66.0" prefHeight="48.0" prefWidth="256.0" text="Label">
+      <Button fx:id="memberBtn" layoutX="419.0" layoutY="239.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="147.0" text="Member" />
+      <Button fx:id="userBtn" layoutX="419.0" layoutY="472.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="147.0" text="User" />
+      <Button fx:id="bookBtn" layoutX="216.0" layoutY="239.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="Book" />
+      <Button fx:id="borrowBtn" layoutX="216.0" layoutY="472.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="Borrow" />
+      <Label fx:id="userLbl" layoutX="33.0" layoutY="44.0" prefHeight="48.0" prefWidth="256.0" text="Label">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="419.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../model/utils/library-or-bookstore-with-students-reading-books-vector-11912227.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="164.0" fitWidth="166.0" layoutX="410.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../model/utils/1618_U1RVRElPIEtBVCAzNTQtMTQx.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="147.0" layoutX="215.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../model/utils/Untitledp.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="120.0" fitWidth="166.0" layoutX="211.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../model/utils/borrowing-a-book-vector-1298110.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="exitBtn" layoutX="33.0" layoutY="472.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Exit" />
    </children>
 </Pane>

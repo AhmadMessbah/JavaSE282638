@@ -1,5 +1,6 @@
 package mft.view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
     @FXML
-    private Button memberBtn, userBtn, bookBtn, borrowBtn;
+    private Button memberBtn, userBtn, bookBtn, borrowBtn, exitBtn;
 
     @FXML
     private Label userLbl;
@@ -78,6 +79,10 @@ public class MainViewController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
+        });
+
+        exitBtn.setOnAction(event -> {
+            Platform.exit();
         });
 
     }
