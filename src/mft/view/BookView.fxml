@@ -64,7 +64,7 @@
         </HBox>
         <TableView fx:id="table" layoutX="334.0" layoutY="25.0" prefHeight="200.0" prefWidth="665.0">
             <columns>
-                <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                 <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="authorCol" prefWidth="75.0" text="AUTHOR" />
                 <TableColumn fx:id="pagesCol" prefWidth="75.0" text="PAGES" />

@@ -48,7 +48,7 @@ public class BookController {
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
                     && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(isbn, 30) &&
-                    Validator.checkName(description, 30)) {
+                    Validator.checkName(description,30)) {
                 Book book = Book
                         .builder()
                         .name(name)

@@ -90,7 +90,7 @@ public class BookViewController implements Initializable {
         table.getColumns().clear();
         ObservableList<Book> books = FXCollections.observableList(bookList);
 
-        TableColumn<Book, String> idCol = new TableColumn<>("Id");
+        TableColumn<Book, String> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<Book, String> nameCol = new TableColumn<>("Name");

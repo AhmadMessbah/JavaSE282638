@@ -125,7 +125,7 @@ public class BookDa implements AutoCloseable {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE NAME LIKE ?"
         );
-        statement.setString(1, name);
+        statement.setString(1,name);
         ResultSet resultSet = statement.executeQuery();
         Book book = null;
         while (resultSet.next()) {
