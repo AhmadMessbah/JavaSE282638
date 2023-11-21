@@ -73,7 +73,7 @@ public class BorrowModifyViewController implements Initializable {
                 Stage stage = new Stage();
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowView.fxml")));
                 stage.setScene(scene);
-                stage.setTitle("Main");
+                stage.setTitle("Borrow");
                 stage.show();
                 backBtn.getScene().getWindow().hide();
             } catch (Exception e) {
