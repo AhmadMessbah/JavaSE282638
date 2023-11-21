@@ -1,7 +1,6 @@
 package mft.controller;
 
 import mft.model.entity.Book;
-import mft.model.entity.Borrow;
 import mft.model.entity.Member;
 import mft.model.entity.User;
 

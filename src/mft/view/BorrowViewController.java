@@ -91,13 +91,19 @@ public class BorrowViewController implements Initializable {
 
         removeBtn.setOnAction(event -> {
             BaseController.formType = FormType.removeBorrow;
+            Map<String, List> result = BorrowController.findByDeletedStatus(false);
             try {
+                if (result.containsKey("ok")) {
                 Stage stage = new Stage();
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowModifyView.fxml")));
                 stage.setScene(scene);
                 stage.setTitle("Remove Borrow");
                 stage.show();
                 removeBtn.getScene().getWindow().hide();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, result.toString().replace("=null", ""), ButtonType.CANCEL);
+                    alert.show();
+                }
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();

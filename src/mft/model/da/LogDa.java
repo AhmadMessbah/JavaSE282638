@@ -1,9 +1,7 @@
 package mft.model.da;
 
 
-import mft.model.entity.Book;
 import mft.model.entity.Log;
-import mft.model.entity.User;
 import mft.model.utils.Jdbc;
 
 import java.sql.Connection;
@@ -32,7 +30,7 @@ public class LogDa implements AutoCloseable{
         statement.setString(3, log.getData());
         statement.setInt(4, log.getUser().getId());
         statement.setTimestamp(5, Timestamp.valueOf(log.getLogTimeStamp()));
-        statement.executeQuery();
+        statement.execute();
         return log;
     }
 
