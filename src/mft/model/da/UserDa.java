@@ -73,7 +73,7 @@ public class UserDa implements AutoCloseable {
                     .member(member)
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .nickName(resultSet.getString("NICKNAME"))
+                    .nickName(resultSet.getString("NICK_NAME"))
                     .image(resultSet.getString("IMAGE"))
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
@@ -101,7 +101,7 @@ public class UserDa implements AutoCloseable {
                     .member(member)
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .nickName(resultSet.getString("NICKNAME"))
+                    .nickName(resultSet.getString("NICK_NAME"))
                     .image(resultSet.getString("IMAGE"))
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
@@ -122,7 +122,7 @@ public class UserDa implements AutoCloseable {
                     .id(resultSet.getInt("ID"))
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .nickName(resultSet.getString("NICKNAME"))
+                    .nickName(resultSet.getString("NICK_NAME"))
                     .image(resultSet.getString("IMAGE"))
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
@@ -145,11 +145,11 @@ public class UserDa implements AutoCloseable {
                     .build();
 
             user = User.builder()
-                    .id(resultSet.getInt("ID"))
+                    .id(resultSet.getInt("MEMBER_ID"))
                     .member(member)
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .nickName(resultSet.getString("NICKNAME"))
+                    .nickName(resultSet.getString("NICK_NAME"))
                     .image(resultSet.getString("IMAGE"))
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
@@ -176,7 +176,7 @@ public class UserDa implements AutoCloseable {
                     .member(member)
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
-                    .nickName(resultSet.getString("NICKNAME"))
+                    .nickName(resultSet.getString("NICK_NAME"))
                     .image(resultSet.getString("IMAGE"))
                     .status(resultSet.getBoolean("STATUS"))
                     .build();
