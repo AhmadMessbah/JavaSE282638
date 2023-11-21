@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view.BorrowModifyViewController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828486" height="51.0" layoutX="47.0" layoutY="23.0" strokeType="INSIDE" width="699.0">
+         <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <GridPane layoutX="46.0" layoutY="108.0" prefHeight="226.0" prefWidth="301.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="98.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="203.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="idLbl" text="Borrow ID" />
+            <Label fx:id="borrowDateLbl" text="Borrow Time" GridPane.rowIndex="3" />
+            <Label fx:id="returnDateLbl" text="Return Time" GridPane.rowIndex="4" />
+            <DatePicker fx:id="borrowDate" prefHeight="31.0" prefWidth="163.0" promptText="Pick Borrow Time" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker fx:id="returnDate" prefHeight="31.0" prefWidth="163.0" promptText="Pick Return Time" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="memberBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="88.0" text="Member" GridPane.rowIndex="1" />
+            <Button fx:id="bookBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="88.0" text="Book" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <HBox layoutX="46.0" layoutY="652.0" prefHeight="57.0" prefWidth="291.0" spacing="30.0">
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </HBox>
+      <Label layoutX="73.0" layoutY="33.0" text="Modify Borrow" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TableView fx:id="borrowTbl" layoutX="46.0" layoutY="501.0" prefHeight="243.0" prefWidth="699.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <TextArea fx:id="descriptionTxt" layoutX="46.0" layoutY="414.0" prefHeight="76.0" prefWidth="699.0" />
+      <Label fx:id="descriptionLbl" layoutX="46.0" layoutY="390.0" text="Description" />
+      <Label fx:id="deletedLbl" layoutX="47.0" layoutY="353.0" text="Deleted" />
+      <ComboBox fx:id="deletedCmb" layoutX="144.0" layoutY="348.0" prefHeight="31.0" prefWidth="163.0" />
+      <Button fx:id="saveBtn" layoutX="587.0" layoutY="108.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="157.0" text="Save" />
+      <ComboBox fx:id="borrowHourCmb" layoutX="439.0" layoutY="251.0" prefHeight="31.0" prefWidth="97.0" />
+      <Label fx:id="borrowHourLbl" layoutX="389.0" layoutY="256.0" text="Hour" />
+      <ComboBox fx:id="borrowMinCmb" layoutX="647.0" layoutY="251.0" prefHeight="31.0" prefWidth="97.0" />
+      <Label fx:id="borrowMinLbl" layoutX="586.0" layoutY="256.0" text="Minute" />
+      <Button fx:id="exitBtn" layoutX="669.0" layoutY="178.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="75.0" text="Exit" />
+      <ComboBox fx:id="returnHourCmb" layoutX="439.0" layoutY="296.0" prefHeight="31.0" prefWidth="97.0" />
+      <Label fx:id="returnHourLbl" layoutX="389.0" layoutY="301.0" text="Hour" />
+      <ComboBox fx:id="returnMinCmb" layoutX="647.0" layoutY="296.0" prefHeight="31.0" prefWidth="97.0" />
+      <Label fx:id="returnMinLbl" layoutX="586.0" layoutY="301.0" text="Minute" />
+      <Label fx:id="userLbl" layoutX="523.0" layoutY="33.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="backBtn" layoutX="587.0" layoutY="178.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="75.0" text="Back" />
+      <TextField fx:id="memberNameTxt" editable="false" layoutX="201.0" layoutY="163.0" prefHeight="31.0" prefWidth="105.0" promptText="Name" />
+      <TextField fx:id="bookNameTxt" editable="false" layoutX="201.0" layoutY="206.0" prefHeight="31.0" prefWidth="105.0" promptText="Name" />
+      <TextField fx:id="memberIdTxt" editable="false" layoutX="144.0" layoutY="163.0" prefHeight="31.0" prefWidth="52.0" promptText="ID" />
+      <TextField fx:id="bookIdTxt" editable="false" layoutX="144.0" layoutY="206.0" prefHeight="31.0" prefWidth="52.0" promptText="ID" />
+      <TextField fx:id="idTxt" layoutX="144.0" layoutY="121.0" prefHeight="31.0" prefWidth="51.0" promptText="ID" />
+      <Button fx:id="findIdBtn" layoutX="200.0" layoutY="120.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="105.0" text="Find" />
+      <TextField fx:id="finalMemberNameTxt" editable="false" layoutX="439.0" layoutY="164.0" prefHeight="31.0" prefWidth="133.0" promptText="Member Name" />
+      <TextField fx:id="finalBookNameTxt" editable="false" layoutX="439.0" layoutY="207.0" prefHeight="31.0" prefWidth="133.0" promptText="Book Name" />
+      <TextField fx:id="finalMemberIdTxt" editable="false" layoutX="382.0" layoutY="164.0" prefHeight="31.0" prefWidth="52.0" promptText="ID" />
+      <TextField fx:id="finalBookIdTxt" editable="false" layoutX="382.0" layoutY="207.0" prefHeight="31.0" prefWidth="52.0" promptText="ID" />
+      <Button fx:id="memberSetBtn" layoutX="310.0" layoutY="163.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="67.0" text="Set--&gt;">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="bookSetBtn" layoutX="310.0" layoutY="206.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="67.0" text="Set--&gt;">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="selectMemberBookLbl" layoutX="383.0" layoutY="132.0" prefHeight="27.0" prefWidth="189.0" text="Selected Member &amp; Book">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

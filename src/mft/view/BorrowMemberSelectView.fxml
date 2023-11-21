@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="727.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view.BorrowMemberSelectViewController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828486" height="51.0" layoutX="47.0" layoutY="23.0" strokeType="INSIDE" width="690.0">
+         <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <GridPane layoutX="46.0" layoutY="108.0" prefHeight="230.0" prefWidth="332.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="132.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="142.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="102.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="idTxt" promptText="Enter ID" GridPane.columnIndex="1" />
+            <TextField fx:id="nameTxt" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="familyTxt" promptText="Enter Family" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Member ID" />
+            <Label text="Name" GridPane.rowIndex="1" />
+            <Label text="Family" GridPane.rowIndex="2" />
+            <TextField fx:id="nationalCodeTxt" promptText="Enter Code" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="National Code" GridPane.rowIndex="3" />
+            <Button fx:id="findByIdBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="84.0" text="Find" GridPane.columnIndex="2" />
+            <Button fx:id="findByCodeBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="84.0" text="Find" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <Label layoutX="64.0" layoutY="32.0" text="Member Select" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TableView fx:id="memberSelectTbl" layoutX="47.0" layoutY="387.0" prefHeight="307.0" prefWidth="690.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Button fx:id="selectBtn" layoutX="438.0" layoutY="341.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="292.0" text="Select" />
+      <GridPane hgap="15.0" layoutX="440.0" layoutY="108.0" prefHeight="230.0" prefWidth="292.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="142.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="142.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="idShowTxt" editable="false" />
+            <TextField fx:id="nameShowTxt" editable="false" GridPane.rowIndex="1" />
+            <TextField fx:id="familyShowTxt" editable="false" GridPane.rowIndex="2" />
+            <TextField fx:id="fatherShowTxt" editable="false" GridPane.rowIndex="3" />
+            <TextField fx:id="codeShowTxt" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="birthDateTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="memberShipDateTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="deletedShowTxt" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <Label fx:id="userLbl" layoutX="440.0" layoutY="32.0" text="userlabel" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="440.0" layoutY="102.0" text="ID">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="439.0" layoutY="162.0" text="Name">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="441.0" layoutY="218.0" text="Family">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="441.0" layoutY="276.0" text="Father">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="593.0" layoutY="102.0" text="National Code">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="592.0" layoutY="162.0" text="Birthdate">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="594.0" layoutY="218.0" text="Membership Date">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="594.0" layoutY="276.0" text="Deleted">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Button fx:id="findByNameBtn" layoutX="290.0" layoutY="181.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="84.0" text="Find" />
+   </children>
+</Pane>
