@@ -12,7 +12,7 @@ public class BookController {
     public static Map<String, String> save(String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
         Map<String, String> result = new HashMap<>();
         try {
-            if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
+            if (Validator.checkName(name, 30) &&  Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
                     && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(isbn, 30) &&
                     Validator.checkName(description, 30)) {
                 Book book = Book
