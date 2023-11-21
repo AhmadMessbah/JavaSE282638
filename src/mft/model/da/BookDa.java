@@ -21,7 +21,7 @@ public class BookDa implements AutoCloseable {
     public Book save(Book book) throws Exception {
         book.setId(Jdbc.nextId("BOOK_SEQ"));
         statement = connection.prepareStatement(
-                "INSERT INTO BOOK_TBL(ID, NAME, AUTHOR, PAGES, PUBLISHER, LANGUAGE, GENRE, ISBN, DESCRIPTION, DELETED) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO BOOK_TBL(ID,  NAME, AUTHOR, PAGES, PUBLISHER, LANGUAGE, GENRE, ISBN, DESCRIPTION, DELETED) VALUES (?,?,?,?,?,?,?,?,?,?)"
         );
         statement.setInt(1, book.getId());
         statement.setString(2, book.getName());

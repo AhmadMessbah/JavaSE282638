@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class BookViewController implements Initializable {
-    public TableColumn idCol, nameCol, authorCol, pagesCol, publisherCol, languageCol, genreCol, isbnCol, descriptionCol;
+    public TableColumn idCol,  nameCol, authorCol, pagesCol, publisherCol, languageCol, genreCol, isbnCol, descriptionCol;
     @FXML
     private TextField idTxt, nameTxt, authorTxt, pagesTxt, publisherTxt, languageTxt, genreTxt, isbnTxt, descriptionTxt;
     @FXML
