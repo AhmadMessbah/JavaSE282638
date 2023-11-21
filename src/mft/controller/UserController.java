@@ -1,68 +1,88 @@
 package mft.controller;
 
-import mft.controller.exception.NoContentException;
+
 import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.bl.UserBl;
-import mft.model.da.UserDa;
-import mft.model.entity.Member;
 import mft.model.entity.User;
-import sun.security.util.Password;
 
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
+
 
 public class UserController {
-    public static User save(int memberId, String userName, String password) {
+
+    public static Map<String, String> save(int memberId, String userName, String password, String nickname, String image) {
         String message;
+        Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(userName, 30) && Validator.checkName(password, 30)) {
-                User user = User.builder().userName(userName).password(password).member(MemberBl.findById(memberId)).status(true).build();
+                User user = User.builder()
+                        .userName(userName)
+                        .password(password)
+                        .nickName(nickname)
+                        .member(MemberBl.findById(memberId))
+                        .status(true)
+                        .image(image)
+                        .build();
                 UserBl.save(user);
                 message = user + " Saved";
                 Logger.info("Save-User", user.toString(), 1);
-                return user;
+                result.put("status", "true");
+                result.put("message", user.toString() + "saved");
+
             } else {
                 message = "Invalid Data";
-                Logger.info("Save-Error", message, 1);
+                Logger.error("Save-Error", message, 1);
+                result.put("status", "false");
+                result.put("message", "invalid data");
             }
         } catch (Exception e) {
             message = "Error : " + e.getMessage();
-            Logger.info("Save-Error", e.getMessage(), 1);
+            Logger.error("Save-Error", e.getMessage(), 1);
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
-        return null;
+        return result;
     }
 
-    public static User edit(int id,String username, String password) {
+    public static Map<String, String> edit(int id, String username, String password) {
+        Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(username, 30) && Validator.checkName(password, 30)) {
                 User user = UserBl.edit(User.builder().id(id).userName(username).password(password).build());
                 Logger.info("EDIT USER", user.toString(), 0);
-                return user;
+                result.put("status", "true");
+                result.put("message", user.toString() + "edited");
             } else {
                 System.out.println("Invalid");
                 Logger.error("EDIT USER", "INVALID DATA", 0);
-                return null;
+                result.put("status", "false");
+                result.put("message", "invalid data");
 
             }
         } catch (Exception e) {
             Logger.error("Edit User", e.getMessage(), 0);
-            return null;
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
-    public static User remove(int id) {
+    public static Map<String, String> remove(int id) {
+        Map<String, String> result = new HashMap<>();
         try {
             User user = UserBl.remove(id);
             Logger.info("REMOVE USER", user.toString(), 0);
-            return user;
+            result.put("status", "removed");
+            result.put("message", user.toString() + "removed");
         } catch (Exception e) {
-            e.printStackTrace();
             Logger.error("REMOVE USER", e.getMessage(), 0);
-            return null;
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     public static List<User> findAll() {
@@ -112,17 +132,17 @@ public class UserController {
         }
     }
 
-        public static List<User> findByStatus(boolean status) {
-            try {
-                List<User> userList = UserBl.findByStatus(status);
-                Logger.info("FIND USER BY STATUS", "USER FOUND", 0);
-                return userList;
-            }catch (Exception e){
-                Logger.error("FIND USER BY STATUS", "USER NOT FOUND", 0);
-                return null;
-            }
-
+    public static List<User> findByStatus(boolean status) {
+        try {
+            List<User> userList = UserBl.findByStatus(status);
+            Logger.info("FIND USER BY STATUS", "USER FOUND", 0);
+            return userList;
+        } catch (Exception e) {
+            Logger.error("FIND USER BY STATUS", "USER NOT FOUND", 0);
+            return null;
         }
+
+    }
 
 
     public static User login(String userName, String password) {

@@ -25,16 +25,16 @@
          <children>
             <Label text="Username" />
             <Label text="Password" GridPane.rowIndex="1" />
-            <PasswordField fx:id="passwordTxt" prefWidth="117.0" promptText="YOUR PASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </PasswordField>
             <TextField fx:id="usernameTxt" promptText="YOUR USERNAME" GridPane.columnIndex="1">
                <font>
                   <Font size="11.0" />
                </font>
             </TextField>
+            <PasswordField fx:id="passwordTxt" prefWidth="117.0" promptText="YOUR PASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </PasswordField>
          </children>
       </GridPane>
       <Button fx:id="loginBtn" layoutX="130.0" layoutY="153.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="67.0" text="Login" />
