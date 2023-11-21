@@ -4,71 +4,96 @@ import mft.model.bl.BookBl;
 import mft.model.bl.Logger;
 import mft.model.entity.Book;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 public class BookController {
-    public static String save(String name, String author) throws Exception {
-        String message;
+    public static Map<String, String> save(String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
+        Map<String, String> result = new HashMap<>();
         try {
-            if (Pattern.matches("[\\w]{2,30}", name) && Pattern.matches("[\\w]{2,30}", author)) {
+            if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
+                    && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(isbn, 30) &&
+                    Validator.checkName(description, 30)) {
                 Book book = Book
                         .builder()
                         .name(name)
                         .author(author)
+                        .pages(pages)
+                        .publisher(publisher)
+                        .language(language)
+                        .genre(genre)
+                        .isbn(isbn)
+                        .description(description)
                         .build();
                 BookBl.save(book);
-                message = book + "Saved";
-                Logger.info("SAVE BOOK", book.toString(), 1);
+                Logger.info("SAVE BOOK", book.toString(), 0);
+                result.put("status", "true");
+                result.put("message", book.toString() + " Saved");
             } else {
-                message = "Invalid data";
-                Logger.info("SAVE ERROR", message, 1);
+                Logger.error("SAVE BOOK", "INVALID DATA", 0);
+                result.put("status", "false");
+                result.put("message", "Invalid Data");
             }
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
-            Logger.info("SAVE ERROR", e.getMessage(), 1);
+            Logger.error("SAVE BOOK", e.getMessage(), 0);
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
-        return message;
+        return result;
     }
 
-    public static String edit(String name, String author) throws Exception {
-        String message;
+    public static Map<String, String> edit(String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
+        Map<String, String> result = new HashMap<>();
         try {
-            if (Pattern.matches("[\\w]{2,30}", name) && Pattern.matches("[\\w]{2,30}", author)) {
+            if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
+                    && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(isbn, 30) &&
+                    Validator.checkName(description, 30)) {
                 Book book = Book
                         .builder()
                         .name(name)
                         .author(author)
+                        .pages(pages)
+                        .publisher(publisher)
+                        .language(language)
+                        .genre(genre)
+                        .isbn(isbn)
+                        .description(description)
                         .build();
                 BookBl.edit(book);
-                message = book + "Edited";
                 Logger.info("EDIT BOOK", book.toString(), 1);
+                result.put("status", "true");
+                result.put("message", book.toString() + " Edited");
             } else {
-                message="Invalid data";
-                Logger.error("EDIT BOOK", message, 1);
+                Logger.error("EDIT BOOK", "INVALID DATA", 0);
+                result.put("status", "false");
+                result.put("message", "Invalid Data");
             }
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
-            Logger.error("EDIT BOOK", e.getMessage(), 1);
+            Logger.error("EDIT BOOK", e.getMessage(), 0);
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
-        return message;
+        return result;
     }
 
-    public static String remove(int id) throws Exception {
-        String message;
+    public static Map<String, String> remove(int id) {
+        Map<String, String> result = new HashMap<>();
         try {
             Book book = BookBl.findById(id);
             BookBl.remove(id);
-            message = book + "Removed";
             Logger.info("REMOVE BOOK", book.toString(), 1);
+            result.put("status", "true");
+            result.put("message", book.toString() + " Removed");
         } catch (Exception e) {
-            message = "Error : " + e.getMessage();
             Logger.error("REMOVE BOOK", e.getMessage(), 1);
+            result.put("status", "false");
+            result.put("message", e.getMessage());
         }
-        return message;
+        return result;
     }
 
-    public static List<Book> findAll() throws Exception {
+    public static List<Book> findAll() {
         try {
             List<Book> bookList = BookBl.findAll();
             Logger.info("FIND BOOK", "ALL", 1);
@@ -79,7 +104,7 @@ public class BookController {
         }
     }
 
-    public static Book findById(int id) throws Exception {
+    public static Book findById(int id) {
         try {
             Book book = BookBl.findById(id);
             Logger.info("FIND BOOK", "ID", 1);
@@ -90,7 +115,7 @@ public class BookController {
         }
     }
 
-    public static Book findByName(String name) throws Exception {
+    public static Book findByName(String name) {
         try {
             Book book = BookBl.findByName(name);
             Logger.info("FIND BOOK", "NAME", 1);
@@ -101,7 +126,7 @@ public class BookController {
         }
     }
 
-    public static Book findByAuthor(String author) throws Exception {
+    public static Book findByAuthor(String author) {
         try {
             Book book = BookBl.findByAuthor(author);
             Logger.info("FIND BOOK", "AUTHOR", 1);
