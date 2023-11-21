@@ -22,48 +22,58 @@ public class BorrowDa implements AutoCloseable {
         borrow.setId(Jdbc.nextId("BORROW_SEQ"));
         borrow.setBorrowTimeStamp(LocalDateTime.now());
         statement = connection.prepareStatement(
-                "INSERT INTO BORROW_TBL(ID, MEMBER_ID, BOOK_ID, BORROW_TIMESTAMP) VALUES (?,?,?,?)"
+                "INSERT INTO BORROW_TBL(ID, MEMBER_ID, BOOK_ID, BORROW_TIMESTAMP,DESCRIPTION, DELETED) VALUES (?,?,?,?,?,?)"
         );
         statement.setInt(1, borrow.getId());
         statement.setInt(2, borrow.getMember().getId());
         statement.setInt(3, borrow.getBook().getId());
         statement.setTimestamp(4, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
+        statement.setString(5, borrow.getDescription());
+        statement.setInt(6,0);
         statement.execute();
         return borrow;
     }
 
     public Borrow edit(Borrow borrow) throws Exception {
         statement = connection.prepareStatement(
-                "UPDATE BORROW_TBL SET MEMBER_ID=?, BOOK_ID=?, BORROW_TIMESTAMP=?, RETURN_TIMESTAMP=? WHERE ID=?"
+                "UPDATE BORROW_TBL SET MEMBER_ID=?, BOOK_ID=?, BORROW_TIMESTAMP=?, RETURN_TIMESTAMP=?, DESCRIPTION=?, DELETED=? WHERE ID=?"
         );
         statement.setInt(1, borrow.getMember().getId());
         statement.setInt(2, borrow.getBook().getId());
         statement.setTimestamp(3, Timestamp.valueOf(borrow.getBorrowTimeStamp()));
         statement.setTimestamp(4, (borrow.getReturnTimeStamp() == null) ? null : Timestamp.valueOf(borrow.getReturnTimeStamp()));
-        statement.setInt(5, borrow.getId());
+        statement.setString(5, borrow.getDescription());
+        statement.setBoolean(6, borrow.isDeleted());
+        statement.setInt(7, borrow.getId());
         statement.execute();
         return borrow;
     }
-
-    public int returnBook(int bookId) throws Exception {
+    public int returnBook(int id) throws Exception {
         statement = connection.prepareStatement(
                 "UPDATE BORROW_TBL SET RETURN_TIMESTAMP=? WHERE ID=?"
         );
         statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-        statement.setInt(2, bookId);
-        statement.execute();
-        return bookId;
-    }
-
-    public int remove(int id) throws Exception {
-        statement = connection.prepareStatement(
-                "DELETE FROM BORROW_TBL WHERE ID=?"
-        );
-        statement.setInt(1, id);
+        statement.setInt(2, id);
         statement.execute();
         return id;
     }
 
+//    public int remove(int id) throws Exception {
+//        statement = connection.prepareStatement(
+//                "DELETE FROM BORROW_TBL WHERE ID=?"
+//        );
+//        statement.setInt(1, id);
+//        statement.execute();
+//        return id;
+//    }
+
+    public void remove(int id) throws Exception {
+        statement = connection.prepareStatement(
+                "UPDATE BORROW_TBL SET DELETED=1 WHERE ID=?"
+        );
+        statement.setInt(1, id);
+        statement.execute();
+    }
     public List<Borrow> findAll() throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BORROW_REPORT ORDER BY BORROW_TIMESTAMP"
@@ -104,6 +114,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -150,6 +162,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
         }
         return borrow;
@@ -194,6 +208,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -241,6 +257,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -290,6 +308,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -341,6 +361,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -350,7 +372,7 @@ public class BorrowDa implements AutoCloseable {
 
     public int booksCountNotReturned(int memberId) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL "
+                "SELECT COUNT(BR_ID) FROM BORROW_REPORT WHERE M_ID=? AND RETURN_TIMESTAMP IS NULL AND DELETED=0"
         );
         statement.setInt(1, memberId);
         ResultSet resultSet = statement.executeQuery();
@@ -399,6 +421,8 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);
@@ -447,6 +471,60 @@ public class BorrowDa implements AutoCloseable {
                             .book(book)
                             .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
                             .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
+                            .build();
+
+            borrowList.add(borrow);
+        }
+        return borrowList;
+    }
+
+    public List<Borrow> findByDeletedStatus(boolean deleted) throws Exception {
+        String sqlCommand;
+        if (deleted) {
+            sqlCommand = "SELECT * FROM BORROW_REPORT WHERE DELETED=1";
+        } else {
+            sqlCommand = "SELECT * FROM BORROW_REPORT WHERE DELETED=0";
+        }
+        statement = connection.prepareStatement(sqlCommand);
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Borrow> borrowList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            Member member =
+                    Member
+                            .builder()
+                            .id(resultSet.getInt("M_ID"))
+                            .name(resultSet.getString("M_NAME"))
+                            .family(resultSet.getString("M_FAMILY"))
+                            .build();
+
+            Book book =
+                    Book
+                            .builder()
+                            .id(resultSet.getInt("B_ID"))
+                            .name(resultSet.getString("B_NAME"))
+                            .author(resultSet.getString("B_AUTHOR"))
+                            .build();
+
+            LocalDateTime returnDateTime = null;
+
+            if (resultSet.getTimestamp("RETURN_TIMESTAMP") != null) {
+                returnDateTime = resultSet.getTimestamp("RETURN_TIMESTAMP").toLocalDateTime();
+            }
+
+            Borrow borrow =
+                    Borrow
+                            .builder()
+                            .id(resultSet.getInt("BR_ID"))
+                            .member(member)
+                            .book(book)
+                            .borrowTimeStamp(resultSet.getTimestamp("BORROW_TIMESTAMP").toLocalDateTime())
+                            .returnTimeStamp(returnDateTime)
+                            .description(resultSet.getString("DESCRIPTION"))
+                            .deleted(resultSet.getBoolean("DELETED"))
                             .build();
 
             borrowList.add(borrow);

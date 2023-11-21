@@ -28,16 +28,20 @@ public class BorrowBl {
         }
     }
 
-    public int returnBook(int bookId) throws Exception {
+    public static int returnBook(int id) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
-                return borrowDa.returnBook(bookId);
+            Borrow borrow = borrowDa.findById(id);
+            if (borrow != null && borrow.getReturnTimeStamp()==null){
+                return borrowDa.returnBook(id);
+            }
+            throw new NoContentException("No Borrow !");
         }
     }
 
     public static Borrow remove(int id) throws Exception {
         try (BorrowDa borrowDa = new BorrowDa()) {
             Borrow borrow = borrowDa.findById(id);
-            if (borrow != null) {
+            if (borrow != null && !(borrow.isDeleted())) {
                 borrowDa.remove(id);
                 return borrow;
             }
@@ -122,6 +126,16 @@ public class BorrowBl {
                 return borrowList;
             }
             throw new NoContentException("There is no borrow record for this member !");
+        }
+    }
+
+    public static List<Borrow> findByDeletedStatus(boolean deleted) throws Exception {
+        try (BorrowDa borrowDa = new BorrowDa()) {
+            List<Borrow> borrowList = borrowDa.findByDeletedStatus(deleted);
+            if (borrowList.size() > 0) {
+                return borrowList;
+            }
+            throw new NoContentException("There is no borrow record !");
         }
     }
 

@@ -1,135 +1,245 @@
 package mft.view;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import mft.controller.BaseController;
 import mft.controller.BorrowController;
-import mft.controller.MemberController;
-import mft.model.entity.Borrow;
-import mft.model.entity.Member;
+import mft.controller.FormType;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class BorrowViewController implements Initializable {
 
     @FXML
-    private TextField idTxt, memberIdTxt, bookIdTxt, findIdTxt, findMemberIdTxt, findBookIdTxt, findBookNameTxt, findMemberNameTxt, findMemberFamilyTxt;
+    private Button borrowBtn, editBtn, removeBtn, returnBtn, findIdBtn, findMemberIdBtn, findBookIdBtn, findStatusBtn, findTimeRangeBtn, findBookNameBtn, findMemberNameBtn, findAllBtn, backBtn, exitBtn;
 
     @FXML
-    private DatePicker borrowDate, returnDate, startDate, endDate;
-
-    @FXML
-    private Button saveBtn, editBtn, removeBtn, findIdBtn, findMemberIdBtn, findBookIdBtn, findByStatusBtn, findTimeRangeBtn, findBookNameBtn, findMemberNameFamilyBtn, findAllBtn ;
-
-    @FXML
-    private ToggleGroup statusGroup;
-
-    @FXML
-    private TableView<Borrow> borrowTbl;
+    private Label userLbl;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        resetForm();
 
-        saveBtn.setOnAction(event -> {
-        Borrow borrow = BorrowController.save(Integer.parseInt(memberIdTxt.getText()), Integer.parseInt(bookIdTxt.getText()));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, borrow.toString(), ButtonType.OK);
-        alert.show();
-        resetForm();
+        userLbl.setText("User : " + BaseController.user.getUserName());
+
+        borrowBtn.setOnAction(event -> {
+            BaseController.formType = FormType.newBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowModifyView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("New Borrow");
+                stage.show();
+                borrowBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
 
         editBtn.setOnAction(event -> {
-            Borrow borrow = BorrowController.edit(Integer.parseInt(idTxt.getText()), Integer.parseInt(memberIdTxt.getText()), Integer.parseInt(bookIdTxt.getText()), borrowDate.getValue().atTime(8,15), returnDate.getValue().atTime(8,15));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, borrow.toString(), ButtonType.OK);
-            alert.show();
+            BaseController.formType = FormType.editBorrow;
+            Map<String, List> result = BorrowController.findAll();
+            try {
+                if (result.containsKey("ok")) {
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowModifyView.fxml")));
+                    stage.setScene(scene);
+                    stage.setTitle("Edit Borrow");
+                    stage.show();
+                    editBtn.getScene().getWindow().hide();
+                }else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, result.toString().replace("=null",""), ButtonType.CANCEL);
+                    alert.show();
+                }
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
+
+        returnBtn.setOnAction(event -> {
+            BaseController.formType = FormType.returnBorrow;
+            Map<String, List> result = BorrowController.findByReturnStatus(false);
+            try {
+                if (result.containsKey("ok")) {
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowModifyView.fxml")));
+                    stage.setScene(scene);
+                    stage.setTitle("Return Borrow");
+                    stage.show();
+                    returnBtn.getScene().getWindow().hide();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, result.toString().replace("=null",""), ButtonType.CANCEL);
+                    alert.show();
+                }
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
 
         removeBtn.setOnAction(event -> {
-            Borrow borrow = BorrowController.remove(Integer.parseInt(idTxt.getText()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, borrow.toString(), ButtonType.OK);
-            alert.show();
-        });
-
-        findIdBtn.setOnAction(event -> {
-            Borrow borrow = BorrowController.findById(Integer.parseInt(findIdTxt.getText()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, borrow.toString() ,ButtonType.OK);
-            alert.show();
-        });
-
-        findMemberIdBtn.setOnAction(event -> {
-            List<Borrow> borrowList = BorrowController.findByMemberId(Integer.parseInt(findMemberIdTxt.getText()));
-
-        });
-
-        findBookIdBtn.setOnAction(event -> {
-            List<Borrow> borrowList = BorrowController.findByBookId(Integer.parseInt(findBookIdTxt.getText()));
-
-        });
-
-        findTimeRangeBtn.setOnAction(event -> {
-            List<Borrow> borrowList = BorrowController.findByBorrowTimeStampRange(startDate.getValue().atTime(8,0),endDate.getValue().atTime(21,0));
-
-        });
-
-        findBookNameBtn.setOnAction(event -> {
-            List<Borrow> borrowList = BorrowController.findByBookName(findBookNameTxt.getText());
-
-        });
-
-        findMemberNameFamilyBtn.setOnAction(event -> {
-            List<Borrow> borrowList = BorrowController.findByMemberNameAndFamily(findMemberNameTxt.getText(),findMemberFamilyTxt.getText());
-
+            BaseController.formType = FormType.removeBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowModifyView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Remove Borrow");
+                stage.show();
+                removeBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
 
         findAllBtn.setOnAction(event -> {
-            showDataOnTable(BorrowController.findAll());
-        });
-
-        findByStatusBtn.setOnAction(event -> {
-            boolean returnStatus = true;
-            RadioButton returnStatusRdb =(RadioButton) statusGroup.getSelectedToggle();
-            if (Objects.equals(returnStatusRdb.getText(), "Not Returned")) {
-                returnStatus = false;
+            BaseController.formType = FormType.findAllBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find All");
+                stage.show();
+                findAllBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
             }
-            List<Borrow> borrowList = BorrowController.findByReturnStatus(returnStatus);
         });
-    }
 
-    public void resetForm(){
-        try{
-            idTxt.clear();
-            memberIdTxt.clear();
-            bookIdTxt.clear();
-            showDataOnTable(BorrowController.findAll());
-        }catch (Exception e){
+        findIdBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByIdBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By ID");
+                stage.show();
+                findIdBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-        }
-    }
+        findMemberIdBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByMemberIdBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Member's ID");
+                stage.show();
+                findMemberIdBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-    public void showDataOnTable(List<Borrow> borrowList){
-        borrowTbl.getColumns().clear();
-        ObservableList<Borrow> borrows = FXCollections.observableList(borrowList);
+        findBookIdBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByBookIdBorrow;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Book's ID");
+                stage.show();
+                findBookIdBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-        TableColumn<Borrow, String> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        findMemberNameBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByMemberNameAndFamily;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Member's Name And Family");
+                stage.show();
+                findMemberNameBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-        TableColumn<Borrow, String> memberCol = new TableColumn<>("MEMBER");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("member"));
+        findBookNameBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByBookName;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Book's Name");
+                stage.show();
+                findBookNameBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-        TableColumn<Borrow, String> bookCol = new TableColumn<>("BOOK");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("book"));
+        findStatusBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByStatus;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Return Status");
+                stage.show();
+                findStatusBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
+        findTimeRangeBtn.setOnAction(event -> {
+            BaseController.formType = FormType.findByTimeRange;
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BorrowFindView.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Find By Borrow Time Range");
+                stage.show();
+                findTimeRangeBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
+        backBtn.setOnAction(event -> {
+            try {
+                Stage stage = new Stage();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("MainFrame.fxml")));
+                stage.setScene(scene);
+                stage.setTitle("Main");
+                stage.show();
+                backBtn.getScene().getWindow().hide();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
-        borrowTbl.getColumns().add(idCol);
-        borrowTbl.getColumns().add(memberCol);
-        borrowTbl.getColumns().add(bookCol);
-        borrowTbl.setItems(borrows);
+        exitBtn.setOnAction(event -> {
+            Platform.exit();
+        });
     }
 }
