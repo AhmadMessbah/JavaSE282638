@@ -2,6 +2,7 @@ package mft.model.bl;
 
 import mft.model.da.MemberDa;
 import mft.model.entity.Member;
+import java.sql.Date;
 
 import java.util.List;
 
@@ -42,6 +43,18 @@ public class MemberBl {
     public static Member findByNameAndFamily(String name, String family) throws Exception{
         try(MemberDa memberDa = new MemberDa()) {
             return memberDa.findByNameAndFamily(name,family);
+        }
+    }
+
+    public static Member findByNationalCode(String nationalCode) throws Exception{
+        try(MemberDa memberDa = new MemberDa()) {
+            return memberDa.findByNationalCode(nationalCode);
+        }
+    }
+
+    public static Member findByMemberShipDate(String memberShipDate) throws Exception{
+        try(MemberDa memberDa = new MemberDa()) {
+            return memberDa.findByMemberShipDate(Date.valueOf(memberShipDate));
         }
     }
 }
