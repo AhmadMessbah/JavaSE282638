@@ -3,7 +3,8 @@ package mft.controller;
 import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.entity.Member;
-import javax.xml.crypto.Data;
+
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,11 +12,11 @@ import java.util.Map;
 
 public class MemberController {
 //         todo : الگو
-    public static Map<String, String> save(String name, String family, String father, String nationalCode, Data birthDate, Data memberShipDate){
+    public static Map<String, String> save(String name, String family, String father, String nationalCode, LocalDate birthDate){
         Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(family, 30)) {
-                Member member = Member.builder().name(name).family(family).father(father).nationalCode(nationalCode).birthDate(birthDate).memberShipDate(memberShipDate).build();
+                Member member = Member.builder().name(name).family(family).father(father).nationalCode(nationalCode).birthDate(birthDate).build();
                 MemberBl.save(member);
                 Logger.info("SAVE MEMBER", member.toString(), 0);
                 result.put("status", "true");
@@ -33,11 +34,11 @@ public class MemberController {
         return result;
     }
 
-    public static Map<String, String> edit(int id, String name, String family, String father, String nationalCode, Data birthDate, Data memberShipDate) {
+    public static Map<String, String> edit(int id, String name, String family, String father, String nationalCode, LocalDate birthDate) {
         Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(family, 30)) {
-                Member member = Member.builder().name(name).family(family).father(father).nationalCode(nationalCode).birthDate(birthDate).memberShipDate(memberShipDate).build();
+                Member member = Member.builder().name(name).family(family).father(father).nationalCode(nationalCode).birthDate(birthDate).build();
                 MemberBl.edit(member);
                 Logger.info("EDIT MEMBER", member.toString(),0);
                 result.put("status", "true");

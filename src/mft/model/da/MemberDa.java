@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberDa implements AutoCloseable{
+public class MemberDa implements AutoCloseable {
     private final Connection connection;
     private PreparedStatement preparedStatement;
 
@@ -27,22 +27,21 @@ public class MemberDa implements AutoCloseable{
         preparedStatement.setString(4, member.getFather());
         preparedStatement.setString(5, member.getNationalCode());
         preparedStatement.setDate(6, Date.valueOf(member.getBirthDate()));
-        preparedStatement.setDate(7 , Date.valueOf(member.getMemberShipDate()));
+        preparedStatement.setDate(7, Date.valueOf(LocalDate.now()));
         preparedStatement.execute();
         return member;
     }
 
     public Member edit(Member member) throws Exception {
         preparedStatement = connection.prepareStatement(
-                "UPDATE MEMBER_TBL SET NAME=?, FAMILY=?, FATHER=? , NATIONAL_CODE=?, BIRTH_DATE=?, MEMBERSHIP_DATE=? WHERE ID=?"
+                "UPDATE MEMBER_TBL SET NAME=?, FAMILY=?, FATHER=? , NATIONAL_CODE=?, BIRTH_DATE=? WHERE ID=?"
         );
         preparedStatement.setString(1, member.getName());
         preparedStatement.setString(2, member.getFamily());
         preparedStatement.setString(3, member.getFather());
         preparedStatement.setString(4, member.getNationalCode());
-        preparedStatement.setDate(5,  Date.valueOf(member.getBirthDate()));
-        preparedStatement.setDate(6 , Date.valueOf(member.getMemberShipDate()));
-        preparedStatement.setInt(7 , member.getId());
+        preparedStatement.setDate(5, Date.valueOf(member.getBirthDate()));
+        preparedStatement.setInt(6, member.getId());
         preparedStatement.execute();
         return member;
     }
@@ -55,7 +54,7 @@ public class MemberDa implements AutoCloseable{
 //        preparedStatement.execute();
 //    }
 
-//         todo : الگو
+    //         todo : الگو
     public void remove(int id) throws Exception {
         preparedStatement = connection.prepareStatement(
                 "UPDATE MEMBER_TBL SET DELETED=1 WHERE ID=?"
@@ -106,12 +105,12 @@ public class MemberDa implements AutoCloseable{
         return member;
     }
 
-    public Member findByNameAndFamily(String name,String family) throws Exception {
+    public Member findByNameAndFamily(String name, String family) throws Exception {
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM MEMBER_TBL WHERE NAME LIKE ? AND FAMILY LIKE ?"
         );
         preparedStatement.setString(1, name);
-        preparedStatement.setString(2,family);
+        preparedStatement.setString(2, family);
         ResultSet resultSet = preparedStatement.executeQuery();
         Member member = null;
         while (resultSet.next()) {

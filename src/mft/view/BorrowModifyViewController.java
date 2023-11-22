@@ -420,6 +420,7 @@ public class BorrowModifyViewController implements Initializable {
     }
 
     public void showDataOnTable(List<Borrow> borrowList) {
+        try {
         borrowTbl.getColumns().clear();
         ObservableList<Borrow> borrows = FXCollections.observableList(borrowList);
 
@@ -447,6 +448,10 @@ public class BorrowModifyViewController implements Initializable {
 
         borrowTbl.getColumns().addAll(idCol, memberCol, bookCol, borrowTimeCol, returnTimeCol, descriptionCol, deletedCol);
         borrowTbl.setItems(borrows);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "There is no book");
+            alert.show();
+        }
     }
 
 

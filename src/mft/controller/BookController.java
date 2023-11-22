@@ -12,8 +12,8 @@ public class BookController {
     public static Map<String, String> save(String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
         Map<String, String> result = new HashMap<>();
         try {
-            if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
-                    && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(description, 30)) {
+            if (Validator.checkName(name, 30) && Validator.checkEnglishText(author, 50) && Validator.checkEnglishText(publisher, 30)
+                    && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkEnglishText(description, 30)) {
                 Book book = Book
                         .builder()
                         .name(name)
@@ -42,13 +42,14 @@ public class BookController {
         return result;
     }
 
-    public static Map<String, String> edit(String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
+    public static Map<String, String> edit(int id, String name, String author, int pages, String publisher, String language, String genre, String isbn, String description) {
         Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(name, 30) && Validator.checkName(author, 50) && Validator.checkName(publisher, 30)
                     && Validator.checkName(language, 30) && Validator.checkName(genre, 50) && Validator.checkName(description, 30)) {
                 Book book = Book
                         .builder()
+                        .id(id)
                         .name(name)
                         .author(author)
                         .pages(pages)

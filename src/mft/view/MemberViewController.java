@@ -8,16 +8,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mft.controller.MemberController;
 import mft.model.entity.Member;
+
 import java.net.URL;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 import java.util.ResourceBundle;
 
 public class MemberViewController implements Initializable {
-    @FXML
-    public TableColumn idCol, nameCol, familyCol, fatherCol, nationalCol, birthDateCol, memberShipDateCol;
+
     @FXML
     private TextField idTxt, nameTxt, familyTxt, fatherTxt, nationalCodeTxt, birthDateTxt, memberShipDateTxt;
     @FXML
@@ -35,13 +35,20 @@ public class MemberViewController implements Initializable {
             familyTxt.setText(String.valueOf(member.getFamily()));
             fatherTxt.setText(String.valueOf(member.getFather()));
             nationalCodeTxt.setText(String.valueOf(member.getNationalCode()));
-            birthDateTxt.setText(Date.valueOf(member.getBirthDate()));
-            memberShipDateTxt.setText(Date.valueOf(member.getBirthDate()));
+            birthDateTxt.setText(member.getBirthDate().toString());
+            memberShipDateTxt.setText(member.getMemberShipDate().toString());
         });
 
 //         todo : الگو
         saveBtn.setOnAction(event -> {
-            Map<String, String> result = MemberController.save(nameTxt.getText(), familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
+            Map<String, String> result =
+                    MemberController.save(
+                            nameTxt.getText(),
+                            familyTxt.getText(),
+                            fatherTxt.getText(),
+                            nationalCodeTxt.getText(),
+                            LocalDate.parse(birthDateTxt.getText())
+                    );
             if (result.get("status").equals("true")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
                 alert.show();
@@ -52,7 +59,14 @@ public class MemberViewController implements Initializable {
             }
         });
         editBtn.setOnAction(event -> {
-            Map<String, String> result = MemberController.edit(Integer.parseInt(idTxt.getText()),nameTxt.getText(),familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
+            Map<String, String> result =
+                    MemberController.edit(
+                            Integer.parseInt(idTxt.getText()),
+                            nameTxt.getText(),
+                            familyTxt.getText(),
+                            fatherTxt.getText(),
+                            nationalCodeTxt.getText(),
+                            LocalDate.parse(birthDateTxt.getText()));
             if (result.get("status").equals("true")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
                 alert.show();
@@ -73,8 +87,9 @@ public class MemberViewController implements Initializable {
                 alert.show();
             }
         });
+    }
 
-    public void resetForm() {
+    private void resetForm() {
         try {
             idTxt.clear();
             nameTxt.clear();
@@ -90,7 +105,7 @@ public class MemberViewController implements Initializable {
         }
     }
 
-    public void showDataOnTable(List<Member> memberList) {
+    private void showDataOnTable(List<Member> memberList) {
         table.getColumns().clear();
         ObservableList<Member> members = FXCollections.observableList(memberList);
 
@@ -117,9 +132,5 @@ public class MemberViewController implements Initializable {
 
         table.getColumns().addAll(idCol, nameCol, familyCol, fatherCol, nationalCol, birthDateCol, memberShipDateCol);
         table.setItems(members);
-    }
-}
-
-    private void resetForm() {
     }
 }

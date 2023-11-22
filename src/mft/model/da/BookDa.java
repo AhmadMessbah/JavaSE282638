@@ -75,7 +75,7 @@ public class BookDa implements AutoCloseable {
 
     public List<Book> findAll() throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL ORDER BY BOOK_TBL.ID"
+                "SELECT * FROM BOOK_TBL WHERE DELETED=0 ORDER BY BOOK_TBL.ID "
         );
         ResultSet resultSet = statement.executeQuery();
         List<Book> bookList = new ArrayList<>();
@@ -99,7 +99,7 @@ public class BookDa implements AutoCloseable {
 
     public Book findById(int id) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE ID=?"
+                "SELECT * FROM BOOK_TBL WHERE ID=? AND DELETED=0"
         );
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
@@ -123,7 +123,7 @@ public class BookDa implements AutoCloseable {
 
     public Book findByName(String name) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE NAME LIKE ?"
+                "SELECT * FROM BOOK_TBL WHERE NAME LIKE ? AND DELETED=0"
         );
         statement.setString(1,name);
         ResultSet resultSet = statement.executeQuery();
@@ -147,7 +147,7 @@ public class BookDa implements AutoCloseable {
 
     public Book findByAuthor(String author) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE AUTHOR LIKE ?"
+                "SELECT * FROM BOOK_TBL WHERE AUTHOR LIKE ? AND DELETED=0"
         );
         statement.setString(1, author);
         ResultSet resultSet = statement.executeQuery();
@@ -172,7 +172,7 @@ public class BookDa implements AutoCloseable {
 
     public List<Book> findByPublisher(String publisher) throws Exception {
         statement = connection.prepareStatement(
-                "SELECT * FROM BOOK_TBL WHERE PUBLISHER LIKE ?"
+                "SELECT * FROM BOOK_TBL WHERE PUBLISHER LIKE ? AND DELETED=0"
         );
         statement.setString(1, publisher);
         ResultSet resultSet = statement.executeQuery();
