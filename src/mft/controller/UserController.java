@@ -47,7 +47,7 @@ public class UserController {
         return result;
     }
 
-    public static Map<String, String> edit(int id, String username, String password) {
+    public static Map<String, String> edit(int id, String username, String password, String nickname, String image) {
         Map<String, String> result = new HashMap<>();
         try {
             if (Validator.checkName(username, 30) && Validator.checkName(password, 30)) {

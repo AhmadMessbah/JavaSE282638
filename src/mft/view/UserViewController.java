@@ -59,7 +59,7 @@ public class UserViewController implements Initializable {
             }
         });
         editBtn.setOnAction(event -> {
-            Map<String, String> result = UserController.edit(Integer.parseInt(idTxt.getText()), usernameTxt.getText(), passwordTxt.getText());
+            Map<String, String> result = UserController.edit(Integer.parseInt(idTxt.getText()), usernameTxt.getText(), passwordTxt.getText(), nicknameTxt.getText(), String.valueOf(imageView.getImage()));
             if (result.get("status").equals("true")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
                 alert.show();
