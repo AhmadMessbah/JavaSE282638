@@ -122,3 +122,4 @@ public class MemberViewController implements Initializable {
 
     private void resetForm() {
     }
+}
