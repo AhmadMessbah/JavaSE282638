@@ -71,4 +71,13 @@ public class BookBl {
             throw new NoContentException("No book !");
         }
     }
+
+    public static List<Book> findByPublisher(String publisher) throws Exception {
+        try (BookDa bookDa = new BookDa()) {
+            List<Book> bookList=bookDa.findByPublisher(publisher);
+            if (bookList.size()>0) {
+                return bookList;
+            }
+        }throw new NoContentException("There is no book !");
+    }
 }

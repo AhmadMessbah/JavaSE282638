@@ -166,7 +166,33 @@ public class BookDa implements AutoCloseable {
                     .deleted(resultSet.getBoolean("DELETED"))
                     .build();
         }
+
         return book;
+    }
+
+    public List<Book> findByPublisher(String publisher) throws Exception {
+        statement = connection.prepareStatement(
+                "SELECT * FROM BOOK_TBL WHERE PUBLISHER LIKE ?"
+        );
+        statement.setString(1, publisher);
+        ResultSet resultSet = statement.executeQuery();
+        List<Book> bookList = new ArrayList<>();
+        while (resultSet.next()) {
+            Book book = Book.builder()
+                    .id(resultSet.getInt("ID"))
+                    .name(resultSet.getString("NAME"))
+                    .author(resultSet.getString("AUTHOR"))
+                    .pages(resultSet.getInt("PAGES"))
+                    .publisher(resultSet.getString("PUBLISHER"))
+                    .language(resultSet.getString("LANGUAGE"))
+                    .genre(resultSet.getString("GENRE"))
+                    .isbn(resultSet.getString("ISBN"))
+                    .description(resultSet.getString("DESCRIPTION"))
+                    .deleted(resultSet.getBoolean("DELETED"))
+                    .build();
+            bookList.add(book);
+        }
+        return bookList;
     }
 
     @Override

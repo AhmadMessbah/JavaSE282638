@@ -65,7 +65,7 @@ public class UserDa implements AutoCloseable {
         List<User> userList = new ArrayList<>();
         while (resultSet.next()) {
             Member member = Member.builder()
-                    .id(resultSet.getInt("ID"))
+                    .id(resultSet.getInt("MEMBER_ID"))
                     .build();
 
             User user = User.builder()
@@ -91,7 +91,7 @@ public class UserDa implements AutoCloseable {
         User user = null;
         if (resultSet.next()) {
             Member member = Member.builder()
-                    .id(resultSet.getInt("ID"))
+                    .id(resultSet.getInt("MEMBER_ID"))
 //                    .name(resultSet.getString("NAME"))
 //                    .family(resultSet.getString("FAMILY"))
                     .build();
@@ -141,11 +141,11 @@ public class UserDa implements AutoCloseable {
         User user = null;
         if (resultSet.next()) {
             Member member = Member.builder()
-                    .id(resultSet.getInt("ID"))
+                    .id(resultSet.getInt("MEMBER_ID"))
                     .build();
 
             user = User.builder()
-                    .id(resultSet.getInt("MEMBER_ID"))
+                    .id(resultSet.getInt("ID"))
                     .member(member)
                     .userName(resultSet.getString("USERNAME"))
                     .password(resultSet.getString("PASSWORD"))
@@ -166,9 +166,9 @@ public class UserDa implements AutoCloseable {
         List<User> userList = new ArrayList<>();
         if (resultSet.next()) {
             Member member = Member.builder()
-                    .id(resultSet.getInt("ID"))
-                    .name(resultSet.getString("NAME"))
-                    .family(resultSet.getString("FAMILY"))
+                    .id(resultSet.getInt("MEMBER_ID"))
+//                    .name(resultSet.getString("NAME"))
+//                    .family(resultSet.getString("FAMILY"))
                     .build();
 
             User user = User.builder()

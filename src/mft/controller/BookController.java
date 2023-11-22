@@ -134,4 +134,15 @@ public class BookController {
             return null;
         }
     }
+
+    public static List<Book> findByPublisher(String publisher) {
+        try {
+            List<Book> bookList = BookBl.findByPublisher(publisher);
+            Logger.info("FIND BOOK", "PUBLISHER", BaseController.user.getId());
+            return bookList;
+        } catch (Exception e) {
+            Logger.error("FIND BOOK", e.getMessage(), BaseController.user.getId());
+            return null;
+        }
+    }
 }
