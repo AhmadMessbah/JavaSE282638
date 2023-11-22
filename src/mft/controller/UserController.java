@@ -147,7 +147,7 @@ public class UserController {
 
     public static User login(String userName, String password) {
         try {
-            User user = UserBl.findByUserNameAndPassword(userName, password);
+            User user = findByUserNameAndPassword(userName, password);
             Logger.info("Login", user.toString(), user.getId());
             return user;
         } catch (Exception e) {

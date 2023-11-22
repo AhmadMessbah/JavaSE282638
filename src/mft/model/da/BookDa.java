@@ -121,15 +121,16 @@ public class BookDa implements AutoCloseable {
         return book;
     }
 
-    public Book findByName(String name) throws Exception {
+    public List<Book> findByName(String name) throws Exception {
         statement = connection.prepareStatement(
                 "SELECT * FROM BOOK_TBL WHERE NAME LIKE ? AND DELETED=0"
         );
-        statement.setString(1,name);
+        statement.setString(1,name + "%");
         ResultSet resultSet = statement.executeQuery();
-        Book book = null;
+        List<Book> bookList = new ArrayList<>();
+
         while (resultSet.next()) {
-            book = Book.builder()
+            Book book = Book.builder()
                     .id(resultSet.getInt("ID"))
                     .name(resultSet.getString("NAME"))
                     .author(resultSet.getString("AUTHOR"))
@@ -141,8 +142,9 @@ public class BookDa implements AutoCloseable {
                     .description(resultSet.getString("DESCRIPTION"))
                     .deleted(resultSet.getBoolean("DELETED"))
                     .build();
+            bookList.add(book);
         }
-        return book;
+        return bookList;
     }
 
     public Book findByAuthor(String author) throws Exception {

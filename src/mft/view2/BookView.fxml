@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="1032.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view2.BookViewController">
+    <children>
+        <GridPane layoutX="53.0" layoutY="34.0" prefHeight="400.0" prefWidth="400.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="66.4000244140625" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.5999755859375" minWidth="10.0" prefWidth="133.5999755859375" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label prefHeight="18.0" prefWidth="101.0" text="id" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="name" GridPane.rowIndex="1" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="author" GridPane.rowIndex="2" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="pages" GridPane.rowIndex="3" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="publisher" GridPane.rowIndex="4" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="language" GridPane.rowIndex="5" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="genre" GridPane.rowIndex="6" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="isbn" GridPane.rowIndex="7" />
+                <Label prefHeight="18.0" prefWidth="101.0" text="description" GridPane.rowIndex="8" />
+                <TextField fx:id="idTxt" editable="false" promptText="Enter id" GridPane.columnIndex="1" />
+                <TextField fx:id="nameTxt" promptText="Enter name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="authorTxt" promptText="Enter author" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="pagesTxt" promptText="Enter pages" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="publisherTxt" promptText="Enter publisher" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="languageTxt" promptText="Enter language" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="genreTxt" promptText="Enter genre" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <TextField fx:id="isbnTxt" promptText="Enter isbn" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <TextField fx:id="descriptionTxt" promptText="Enter description" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            </children>
+        </GridPane>
+        <HBox layoutX="55.0" layoutY="480.0" prefHeight="43.0" prefWidth="300.0" spacing="10.0">
+            <children>
+                <Button fx:id="saveBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" text="Save" textFill="#000000e8" />
+                <Button fx:id="editBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="64.0" text="Edit" />
+                <Button fx:id="removeBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="78.0" text="Remove" />
+            </children>
+        </HBox>
+        <TableView fx:id="table" layoutX="334.0" layoutY="25.0" prefHeight="481.0" prefWidth="679.0">
+            <columns>
+                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="authorCol" prefWidth="75.0" text="AUTHOR" />
+                <TableColumn fx:id="pagesCol" prefWidth="75.0" text="PAGES" />
+                <TableColumn fx:id="publisherCol" prefWidth="75.0" text="PUBLISHER" />
+                <TableColumn fx:id="languageCol" prefWidth="75.0" text="LANGUAGE" />
+                <TableColumn fx:id="genreCol" prefWidth="75.0" text="GENRE" />
+                <TableColumn fx:id="isbnCol" prefWidth="75.0" text="ISBN" />
+                <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="DESCRIPTION" />
+            </columns>
+        </TableView>
+      <Button fx:id="clearBtn" layoutX="55.0" layoutY="445.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="227.0" text="Add New Book Info" />
+    </children>
+</Pane>

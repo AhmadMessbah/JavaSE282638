@@ -29,22 +29,24 @@ public class BookBl {
             if (book != null) {
                 bookDa.remove(id);
                 return book;
-            }throw new NoContentException("No book");
+            }
+            throw new NoContentException("No book");
         }
     }
 
     public static List<Book> findAll() throws Exception {
         try (BookDa bookDa = new BookDa()) {
-            List<Book> bookList=bookDa.findAll();
-            if (bookList.size()>0) {
+            List<Book> bookList = bookDa.findAll();
+            if (bookList.size() > 0) {
                 return bookList;
             }
-        }throw new NoContentException("There is no book !");
+        }
+        throw new NoContentException("There is no book !");
     }
 
     public static Book findById(int id) throws Exception {
         try (BookDa bookDa = new BookDa()) {
-            Book book=bookDa.findById(id);
+            Book book = bookDa.findById(id);
             if (book != null) {
                 return book;
             }
@@ -52,11 +54,11 @@ public class BookBl {
         }
     }
 
-    public static Book findByName(String name) throws Exception {
+    public static List<Book> findByName(String name) throws Exception {
         try (BookDa bookDa = new BookDa()) {
-            Book book=bookDa.findByName(name);
-            if (book != null) {
-                return book;
+            List<Book> bookList = bookDa.findByName(name);
+            if (!bookList.isEmpty()) {
+                return bookList;
             }
             throw new NoContentException("No book !");
         }
@@ -64,7 +66,7 @@ public class BookBl {
 
     public static Book findByAuthor(String author) throws Exception {
         try (BookDa bookDa = new BookDa()) {
-            Book book=bookDa.findByAuthor(author);
+            Book book = bookDa.findByAuthor(author);
             if (book != null) {
                 return book;
             }
@@ -74,10 +76,11 @@ public class BookBl {
 
     public static List<Book> findByPublisher(String publisher) throws Exception {
         try (BookDa bookDa = new BookDa()) {
-            List<Book> bookList=bookDa.findByPublisher(publisher);
-            if (bookList.size()>0) {
+            List<Book> bookList = bookDa.findByPublisher(publisher);
+            if (bookList.size() > 0) {
                 return bookList;
             }
-        }throw new NoContentException("There is no book !");
+        }
+        throw new NoContentException("There is no book !");
     }
 }

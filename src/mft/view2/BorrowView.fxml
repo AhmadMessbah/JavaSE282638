@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.view.BorrowViewController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828486" height="51.0" layoutX="244.0" layoutY="108.0" strokeType="INSIDE" width="186.0">
+         <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#828486" height="51.0" layoutX="26.0" layoutY="108.0" strokeType="INSIDE" width="186.0">
+         <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <Label layoutX="280.0" layoutY="117.0" prefHeight="32.0" prefWidth="134.0" text="Find Borrow" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="117.0" text="Modify Borrow" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <VBox layoutX="26.0" layoutY="182.0" prefHeight="341.0" prefWidth="186.0" spacing="11.0">
+         <children>
+            <Button fx:id="borrowBtn" mnemonicParsing="false" prefHeight="77.0" prefWidth="186.0" text="Borrow" />
+            <Button fx:id="returnBtn" mnemonicParsing="false" prefHeight="77.0" prefWidth="186.0" text="Return" />
+            <Button fx:id="editBtn" mnemonicParsing="false" prefHeight="77.0" prefWidth="186.0" text="Edit" />
+            <Button fx:id="removeBtn" mnemonicParsing="false" prefHeight="77.0" prefWidth="186.0" text="Remove" />
+         </children>
+      </VBox>
+      <VBox layoutX="244.0" layoutY="182.0" prefHeight="341.0" prefWidth="186.0" spacing="10.0">
+         <children>
+            <Button fx:id="findAllBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find All" />
+            <Button fx:id="findIdBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By ID" />
+            <Button fx:id="findMemberIdBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Member ID" />
+            <Button fx:id="findBookIdBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Book ID" />
+            <Button fx:id="findTimeRangeBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Time Range" />
+            <Button fx:id="findBookNameBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Book Name" />
+            <Button fx:id="findMemberNameBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Member Name" />
+            <Button fx:id="findStatusBtn" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Find By Status" />
+         </children>
+      </VBox>
+      <Label fx:id="userLbl" layoutX="26.0" layoutY="37.0" text="Label">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="exitBtn" layoutX="367.0" layoutY="39.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="63.0" text="Exit" />
+      <Button fx:id="backBtn" layoutX="306.0" layoutY="39.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="63.0" text="Back" />
+   </children>
+</Pane>

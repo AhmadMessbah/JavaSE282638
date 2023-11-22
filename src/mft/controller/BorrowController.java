@@ -92,8 +92,8 @@ public class BorrowController {
         return result;
     }
 
-    public static Map<String, List> findAll(){
-        Map<String, List> result = new HashMap<>();
+    public static Map<String, List<Borrow>> findAll(){
+        Map<String, List<Borrow>> result = new HashMap<>();
         try {
             List<Borrow> borrowList = BorrowBl.findAll();
             Logger.info("FIND-BORROW", "ALL", BaseController.user.getId());

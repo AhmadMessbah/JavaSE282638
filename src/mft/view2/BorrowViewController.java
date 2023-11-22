@@ -1,4 +1,4 @@
-package mft.view;
+package mft.view2;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,7 +31,7 @@ public class BorrowViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-//        userLbl.setText("User : " + BaseController.user.getUserName());
+        userLbl.setText("User : " + BaseController.user.getUserName());
 
         borrowBtn.setOnAction(event -> {
             BaseController.formType = FormType.newBorrow;

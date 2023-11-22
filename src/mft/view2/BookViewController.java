@@ -1,4 +1,4 @@
-package mft.view;
+package mft.view2;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
+import mft.controller.BaseController;
 import mft.controller.BookController;
 import mft.model.entity.Book;
 
@@ -16,20 +18,60 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class BookViewController implements Initializable {
-    public TableColumn idCol, nameCol, authorCol, pagesCol, publisherCol, languageCol, genreCol, isbnCol, descriptionCol;
+    @FXML
+    private Pane pane;
+
     @FXML
     private TextField idTxt, nameTxt, authorTxt, pagesTxt, publisherTxt, languageTxt, genreTxt, isbnTxt, descriptionTxt;
     @FXML
-    private Button saveBtn, editeBtn, removeBtn, clearBtn;
+    private Button saveBtn, editBtn, removeBtn, clearBtn;
     @FXML
     private TableView<Book> table;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        switch (BaseController.formType.name()) {
+            case "SaveBook":
+                pane.setPrefWidth(330);
+                editBtn.setVisible(false);
+                removeBtn.setVisible(false);
+                table.setVisible(false);
+                break;
+            case "EditBook":
+                pane.prefWidth(330);
+                saveBtn.setVisible(false);
+                removeBtn.setVisible(false);
+                break;
+            case "RemoveBook":
+                pane.prefWidth(330);
+                saveBtn.setVisible(false);
+                editBtn.setVisible(false);
+                break;
+            case "SelectBook":
+                table.setLayoutX(15);
+                table.setLayoutY(200);
+                table.setPrefHeight(440);
+                clearBtn.setLayoutY(480);
+                pane.setPrefWidth(715);
+                clearBtn.setText("SELECT BOOK");
+                nameTxt.setOnKeyReleased((event)->{
+                    showDataOnTable(BookController.findByName(nameTxt.getText()));
+                });
+                break;
+        }
+
         resetForm();
 
         clearBtn.setOnAction((event) -> {
-            resetForm();
+            if (clearBtn.getText().equals("SELECT BOOK")) {
+                Book book = table.getSelectionModel().getSelectedItem();
+                if (book != null) {
+                    selectTableRow(book);
+                    BaseController.book = book;
+                }
+            } else {
+                resetForm();
+            }
         });
 
         table.setOnKeyReleased((event) -> {
@@ -43,10 +85,10 @@ public class BookViewController implements Initializable {
 
         table.setOnMouseClicked((event) -> {
 //            if (event.isPrimaryButtonDown()) {   todo : doesn't work
-                Book book = table.getSelectionModel().getSelectedItem();
-                if (book != null) {
-                    selectTableRow(book);
-                }
+            Book book = table.getSelectionModel().getSelectedItem();
+            if (book != null) {
+                selectTableRow(book);
+            }
 //            }
         });
         saveBtn.setOnAction(event -> {
@@ -60,7 +102,7 @@ public class BookViewController implements Initializable {
                 alert.show();
             }
         });
-        editeBtn.setOnAction(event -> {
+        editBtn.setOnAction(event -> {
             Map<String, String> result = BookController.edit(Integer.parseInt(idTxt.getText()), nameTxt.getText(), authorTxt.getText(), Integer.parseInt(pagesTxt.getText()), publisherTxt.getText(), languageTxt.getText(), genreTxt.getText(), isbnTxt.getText(), descriptionTxt.getText());
             if (result.get("status").equals("true")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);

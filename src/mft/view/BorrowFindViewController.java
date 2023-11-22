@@ -16,6 +16,7 @@ import mft.controller.BorrowController;
 import mft.controller.FormType;
 import mft.model.entity.Book;
 import mft.model.entity.Borrow;
+import mft.model.entity.BorrowVo;
 import mft.model.entity.Member;
 
 import java.net.URL;
@@ -37,7 +38,7 @@ public class BorrowFindViewController implements Initializable {
     private ToggleGroup statusGroup;
 
     @FXML
-    private TableView<Borrow> borrowTbl;
+    private TableView<BorrowVo> borrowTbl;
 
     @FXML
     private Label userLbl, idLbl, borrowRangeLbl, fromLbl, untilLbl, bookNameLbl, memberNameLbl, memberFamilyLbl, bookIdLbl, memberIdLbl;
@@ -77,7 +78,7 @@ public class BorrowFindViewController implements Initializable {
 
         if (BaseController.formType.equals(FormType.findAllBorrow)) {
             findAllBtn.setOnAction(event -> {
-                Map<String, List> result = BorrowController.findAll();
+                Map<String, List<Borrow>> result = BorrowController.findAll();
                 if (result.containsKey("ok")) {
                     showDataOnTable(result.get("ok"));
                 } else {
@@ -340,32 +341,31 @@ public class BorrowFindViewController implements Initializable {
     }
 
     public void showDataOnTable(List<Borrow> borrowList) {
-        borrowTbl.getColumns().clear();
-        ObservableList<Borrow> borrows = FXCollections.observableList(borrowList);
+        List<BorrowVo> borrowVoList = new ArrayList<>();
+        for (Borrow borrow : borrowList) {
+            BorrowVo borrowVo = new BorrowVo(borrow);
+            borrowVoList.add(borrowVo);
+        }
 
-        TableColumn<Borrow, Integer> idCol = new TableColumn<>("Id");
+        borrowTbl.getColumns().clear();
+        ObservableList<BorrowVo> borrows = FXCollections.observableList(borrowVoList);
+
+        TableColumn<BorrowVo, Integer> idCol = new TableColumn<>("Id");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Borrow, Member> memberCol = new TableColumn<>("Member");
-        memberCol.setCellValueFactory(new PropertyValueFactory<>("member"));
+        TableColumn<BorrowVo, Member> memberCol = new TableColumn<>("Member");
+        memberCol.setCellValueFactory(new PropertyValueFactory<>("memberFullName"));
 
-        TableColumn<Borrow, Book> bookCol = new TableColumn<>("Book");
-        bookCol.setCellValueFactory(new PropertyValueFactory<>("book"));
+        TableColumn<BorrowVo, Book> bookCol = new TableColumn<>("Book");
+        bookCol.setCellValueFactory(new PropertyValueFactory<>("bookFullInfo"));
 
-        TableColumn<Borrow, LocalDateTime> borrowTimeCol = new TableColumn<>("Borrow Time");
+        TableColumn<BorrowVo, LocalDateTime> borrowTimeCol = new TableColumn<>("Borrow Time");
         borrowTimeCol.setCellValueFactory(new PropertyValueFactory<>("borrowTimeStamp"));
 
-        TableColumn<Borrow, LocalDateTime> returnTimeCol = new TableColumn<>("Return Time");
+        TableColumn<BorrowVo, LocalDateTime> returnTimeCol = new TableColumn<>("Return Time");
         returnTimeCol.setCellValueFactory(new PropertyValueFactory<>("returnTimeStamp"));
 
-        TableColumn<Borrow, String> descriptionCol = new TableColumn<>("Description");
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        TableColumn<Borrow, Integer> deletedCol = new TableColumn<>("Deleted");
-        deletedCol.setCellValueFactory(new PropertyValueFactory<>("deleted"));
-
-
-        borrowTbl.getColumns().addAll(idCol, memberCol, bookCol, borrowTimeCol, returnTimeCol, descriptionCol, deletedCol);
+        borrowTbl.getColumns().addAll(idCol, memberCol, bookCol, borrowTimeCol, returnTimeCol);
         borrowTbl.setItems(borrows);
     }
 }

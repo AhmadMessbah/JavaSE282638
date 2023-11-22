@@ -105,9 +105,8 @@ public class BorrowBookSelectViewController implements Initializable {
         });
 
         findByNameBtn.setOnAction(event -> {
-            Book book = BookController.findByName(nameTxt.getText());
-            List<Book> bookList = new ArrayList<>();
-            bookList.add(book);
+            List<Book> bookList = BookController.findByName(nameTxt.getText());
+//            bookList.add(bookList);
             showDataOnTable(bookList);
             resetForm();
         });

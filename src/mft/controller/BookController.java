@@ -35,7 +35,7 @@ public class BookController {
                 result.put("message", "Invalid Data");
             }
         } catch (Exception e) {
-            Logger.error("SAVE BOOK", e.getMessage(), 0);
+            Logger.error("SAVE BOOK ERROR", e.getMessage(), 0);
             result.put("status", "false");
             result.put("message", e.getMessage());
         }
@@ -69,7 +69,7 @@ public class BookController {
                 result.put("message", "Invalid Data");
             }
         } catch (Exception e) {
-            Logger.error("EDIT BOOK", e.getMessage(), 0);
+            Logger.error("EDIT BOOK ERROR", e.getMessage(), 0);
             result.put("status", "false");
             result.put("message", e.getMessage());
         }
@@ -85,7 +85,7 @@ public class BookController {
             result.put("status", "true");
             result.put("message", book.toString() + " Removed");
         } catch (Exception e) {
-            Logger.error("REMOVE BOOK", e.getMessage(), 1);
+            Logger.error("REMOVE BOOK ERROR", e.getMessage(), 1);
             result.put("status", "false");
             result.put("message", e.getMessage());
         }
@@ -98,7 +98,7 @@ public class BookController {
             Logger.info("FIND BOOK", "ALL", 1);
             return bookList;
         } catch (Exception e) {
-            Logger.error("FIND BOOK", e.getMessage(), 1);
+            Logger.error("FIND BOOK ERROR", e.getMessage(), 1);
             return null;
         }
     }
@@ -109,18 +109,18 @@ public class BookController {
             Logger.info("FIND BOOK", "ID", 1);
             return book;
         } catch (Exception e) {
-            Logger.error("FIND BOOK", e.getMessage(), 1);
+            Logger.error("FIND BOOK ERROR", e.getMessage(), 1);
             return null;
         }
     }
 
-    public static Book findByName(String name) {
+    public static List<Book> findByName(String name) {
         try {
-            Book book = BookBl.findByName(name);
+            List<Book> bookList = BookBl.findByName(name);
             Logger.info("FIND BOOK", "NAME", 1);
-            return book;
+            return bookList;
         } catch (Exception e) {
-            Logger.error("FIND BOOK", e.getMessage(), 1);
+            Logger.error("FIND BOOK ERROR", e.getMessage(), 1);
             return null;
         }
     }
@@ -131,7 +131,7 @@ public class BookController {
             Logger.info("FIND BOOK", "AUTHOR", 1);
             return book;
         } catch (Exception e) {
-            Logger.error("FIND BOOK", e.getMessage(), 1);
+            Logger.error("FIND BOOK ERROR", e.getMessage(), 1);
             return null;
         }
     }
@@ -142,7 +142,7 @@ public class BookController {
             Logger.info("FIND BOOK", "PUBLISHER", BaseController.user.getId());
             return bookList;
         } catch (Exception e) {
-            Logger.error("FIND BOOK", e.getMessage(), BaseController.user.getId());
+            Logger.error("FIND BOOK ERROR", e.getMessage(), BaseController.user.getId());
             return null;
         }
     }
