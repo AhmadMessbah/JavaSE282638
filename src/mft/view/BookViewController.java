@@ -79,6 +79,12 @@ public class BookViewController implements Initializable {
             idTxt.clear();
             nameTxt.clear();
             authorTxt.clear();
+            pagesTxt.clear();
+            publisherTxt.clear();
+            languageTxt.clear();
+            genreTxt.clear();
+            isbnTxt.clear();
+            descriptionTxt.clear();
             showDataOnTable(BookController.findAll());
         } catch (Exception e) {
             System.out.println(e.getMessage());
