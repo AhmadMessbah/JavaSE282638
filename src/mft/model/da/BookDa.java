@@ -166,6 +166,7 @@ public class BookDa implements AutoCloseable {
                     .deleted(resultSet.getBoolean("DELETED"))
                     .build();
         }
+
         return book;
     }
 
