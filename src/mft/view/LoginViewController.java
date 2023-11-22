@@ -30,6 +30,7 @@ public class LoginViewController implements Initializable {
         loginBtn.setOnAction(event -> {
             try {
                 User user = UserController.login(usernameTxt.getText(), passwordTxt.getText());
+                System.out.println(user);
                 if (user != null) {
                     BaseController.user = user;
                     Stage stage = new Stage();

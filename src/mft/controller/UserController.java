@@ -1,6 +1,7 @@
 package mft.controller;
 
 
+import mft.controller.exception.AccessDeniedException;
 import mft.model.bl.Logger;
 import mft.model.bl.MemberBl;
 import mft.model.bl.UserBl;
@@ -111,7 +112,7 @@ public class UserController {
 
     public static User findByUserName(String username, int memberId) {
         try {
-            User user = User.builder().userName(username).id(memberId).build();
+            User user = UserBl.findByUserName(username, memberId);
             Logger.info("FIND USERNAME", "USERNAME", 0);
             return user;
         } catch (Exception e) {
@@ -122,7 +123,7 @@ public class UserController {
 
     public static User findByUserNameAndPassword(String username, String password) {
         try {
-            User user = User.builder().userName(username).password(password).build();
+            User user = UserBl.findByUserNameAndPassword(username, password);
             Logger.info("FIND USER BY USERNAME/PASSWORD", "USER", 0);
             return user;
 
@@ -135,10 +136,10 @@ public class UserController {
     public static List<User> findByStatus(boolean status) {
         try {
             List<User> userList = UserBl.findByStatus(status);
-            Logger.info("FIND USER BY STATUS", "USER FOUND", 0);
+            Logger.info("FIND BY STATUS", String.valueOf(status), 0);
             return userList;
         } catch (Exception e) {
-            Logger.error("FIND USER BY STATUS", "USER NOT FOUND", 0);
+            Logger.error("FIND BY STATUS - ERROR", String.valueOf(status), 0);
             return null;
         }
 
@@ -147,12 +148,14 @@ public class UserController {
 
     public static User login(String userName, String password) {
         try {
-            User user = findByUserNameAndPassword(userName, password);
-            Logger.info("Login", user.toString(), user.getId());
-            return user;
+            User user = UserBl.findByUserNameAndPassword(userName, password);
+            if (user != null) {
+                Logger.info("Login", userName, user.getId());
+                return user;
+            } else throw new AccessDeniedException();
         } catch (Exception e) {
-            Logger.info("Login-Error", e.getMessage(), 1);
+            Logger.info("Login-Error", userName + "/" + password, 1);
+            return null;
         }
-        return null;
     }
 }
