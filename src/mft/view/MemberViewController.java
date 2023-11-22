@@ -71,7 +71,8 @@ public class MemberViewController implements Initializable {
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
                 alert.show();
-    }
+            }
+        });
 
     public void resetForm() {
         try {
@@ -118,3 +119,6 @@ public class MemberViewController implements Initializable {
         table.setItems(members);
     }
 }
+
+    private void resetForm() {
+    }
