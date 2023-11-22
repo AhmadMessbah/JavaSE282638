@@ -28,7 +28,7 @@ public class BookController {
                 BookBl.save(book);
                 Logger.info("SAVE BOOK", book.toString(), 0);
                 result.put("status", "true");
-                result.put("message", book.toString() + " Saved");
+                result.put("message", book.toString() + "Saved");
             } else {
                 Logger.error("SAVE BOOK", "INVALID DATA", 0);
                 result.put("status", "false");
