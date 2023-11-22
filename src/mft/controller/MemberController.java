@@ -93,4 +93,15 @@ public class MemberController {
             return null;
         }
     }
+
+    public static Member findByNationalCode(String code)  {
+        try {
+            Member member = MemberBl.findByNationalCode(code);
+            Logger.info("FIND MEMBER", "NATIONAL CODE",BaseController.user.getId());
+            return member;
+        } catch (Exception e) {
+            Logger.error("FIND MEMBER", e.getMessage(),BaseController.user.getId());
+            return null;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package mft.model.bl;
 
+import mft.controller.exception.NoContentException;
 import mft.model.da.MemberDa;
 import mft.model.entity.Member;
 
@@ -42,6 +43,16 @@ public class MemberBl {
     public static Member findByNameAndFamily(String name, String family) throws Exception{
         try(MemberDa memberDa = new MemberDa()) {
             return memberDa.findByNameAndFamily(name,family);
+        }
+    }
+
+    public static Member findByNationalCode(String code) throws Exception{
+        try(MemberDa memberDa = new MemberDa()) {
+            Member member = memberDa.findByNationalCode(code);
+            if (member != null){
+                return member;
+            }
+            throw new NoContentException("NO MEMBER (national code)!!!");
         }
     }
 }
