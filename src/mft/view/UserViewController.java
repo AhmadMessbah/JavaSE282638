@@ -16,6 +16,7 @@ import mft.model.entity.User;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UserViewController implements Initializable {
@@ -43,25 +44,41 @@ public class UserViewController implements Initializable {
             idTxt.setText(String.valueOf(user.getId()));
             usernameTxt.setText(user.getUserName());
             passwordTxt.setText(user.getPassword());
+            nicknameTxt.setText(user.getNickName());
         });
 
         saveBtn.setOnAction(event -> {
-            User user = (User) UserController.save(1, usernameTxt.getText(), passwordTxt.getText(), nicknameTxt.getText(), String.valueOf(imageView.getImage()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
-            alert.show();
-            resetForm();
+            Map<String, String> result = UserController.save(1, usernameTxt.getText(), passwordTxt.getText(), nicknameTxt.getText(), String.valueOf(imageView.getImage()));
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
         });
         editBtn.setOnAction(event -> {
-            User user = (User) UserController.edit(Integer.parseInt(idTxt.getText()), usernameTxt.getText(), passwordTxt.getText());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
-            alert.show();
-            resetForm();
+            Map<String, String> result = UserController.edit(Integer.parseInt(idTxt.getText()), usernameTxt.getText(), passwordTxt.getText(), nicknameTxt.getText(), String.valueOf(imageView.getImage()));
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
         });
         removeBtn.setOnAction(event -> {
-            User user = (User) UserController.remove(Integer.parseInt(idTxt.getText()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, user.toString(), ButtonType.OK);
-            alert.show();
-            resetForm();
+            Map<String, String> result = UserController.remove(Integer.parseInt(idTxt.getText()));
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
         });
 
 
@@ -72,6 +89,7 @@ public class UserViewController implements Initializable {
             idTxt.clear();
             usernameTxt.clear();
             passwordTxt.clear();
+            nicknameTxt.clear();
             showDataOnTable(UserController.findAll());
         } catch (Exception e) {
 
@@ -88,8 +106,14 @@ public class UserViewController implements Initializable {
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("UserName"));
 
+        TableColumn<User, String> nicknameCol = new TableColumn<>("NICKNAME");
+        nicknameCol.setCellValueFactory(new PropertyValueFactory<>("Nickname"));
 
-        userTbl.getColumns().addAll(idCol, usernameCol);
+        TableColumn<User, String> imageView = new TableColumn<>("IMAGEVIEW");
+        imageView.setCellValueFactory(new PropertyValueFactory<>("Imageview"));
+
+
+        userTbl.getColumns().addAll(idCol, usernameCol, nicknameCol, imageView);
         userTbl.setItems(users);
     }
 }
