@@ -28,51 +28,49 @@ public class MemberViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetForm();
-//        table.setOnMouseClicked((event) -> {
-//            Member member = table.getSelectionModel().getSelectedItem();
-//            idTxt.setText(String.valueOf(member.getId()));
-//            nameTxt.setText(String.valueOf(member.getName()));
-//            familyTxt.setText(String.valueOf(member.getFamily()));
-//            fatherTxt.setText(String.valueOf(member.getFather()));
-//            nationalCodeTxt.setText(String.valueOf(member.getNationalCode()));
-//            birthDateTxt.setText(Date.valueOf(member.getBirthDate()));
-//            memberShipDateTxt.setText(Date.valueOf(member.getBirthDate()));
-//        });
-//
-////         todo : الگو
-//        saveBtn.setOnAction(event -> {
-//            Map<String, String> result = MemberController.save(nameTxt.getText(), familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
-//            if (result.get("status").equals("true")) {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
-//                alert.show();
-//                resetForm();
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
-//                alert.show();
-//            }
-//        });
-//        editBtn.setOnAction(event -> {
-//            Map<String, String> result = MemberController.edit(Integer.parseInt(idTxt.getText()),nameTxt.getText(),familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
-//            if (result.get("status").equals("true")) {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
-//                alert.show();
-//                resetForm();
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
-//                alert.show();
-//            }
-//        });
-//        removeBtn.setOnAction(event -> {
-//            Map<String, String> result = MemberController.remove(Integer.parseInt(idTxt.getText()));
-//            if (result.get("status").equals("true")) {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
-//                alert.show();
-//                resetForm();
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
-//                alert.show();
-//            }
-//        });
+        table.setOnMouseClicked((event) -> {
+            Member member = table.getSelectionModel().getSelectedItem();
+            idTxt.setText(String.valueOf(member.getId()));
+            nameTxt.setText(String.valueOf(member.getName()));
+            familyTxt.setText(String.valueOf(member.getFamily()));
+            fatherTxt.setText(String.valueOf(member.getFather()));
+            nationalCodeTxt.setText(String.valueOf(member.getNationalCode()));
+            birthDateTxt.setText(Date.valueOf(member.getBirthDate()));
+            memberShipDateTxt.setText(Date.valueOf(member.getBirthDate()));
+        });
+
+//         todo : الگو
+        saveBtn.setOnAction(event -> {
+            Map<String, String> result = MemberController.save(nameTxt.getText(), familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
+        });
+        editBtn.setOnAction(event -> {
+            Map<String, String> result = MemberController.edit(Integer.parseInt(idTxt.getText()),nameTxt.getText(),familyTxt.getText(), fatherTxt.getText(),nationalCodeTxt.getText(), birthDateTxt.getText(), memberShipDateTxt.getText());
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
+            }
+        });
+        removeBtn.setOnAction(event -> {
+            Map<String, String> result = MemberController.remove(Integer.parseInt(idTxt.getText()));
+            if (result.get("status").equals("true")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, result.get("message"), ButtonType.OK);
+                alert.show();
+                resetForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, result.get("message"), ButtonType.CANCEL);
+                alert.show();
     }
 
     public void resetForm() {
