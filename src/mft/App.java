@@ -12,6 +12,9 @@ import mft.model.entity.Member;
 import java.time.LocalDate;
 
 public class App extends Application {
+    public static void main(String[] args) {
+        launch();
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
 //        Member member = MemberBl.save(Member.builder().name("admin").family("admin").birthDate(LocalDate.now()) .build());

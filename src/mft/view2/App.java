@@ -10,10 +10,10 @@ import mft.controller.FormType;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BaseController.formType = FormType.SelectBook;
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("BookView.fxml")));
+//        BaseController.formType = FormType.SelectBook;
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("ImageView.fxml")));
         primaryStage.setScene(scene);
-        primaryStage.setTitle( BaseController.formType.toString());
+//        primaryStage.setTitle( BaseController.formType.toString());
         primaryStage.show();
     }
 }
